@@ -1,0 +1,39 @@
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>تسجيل الدخول - لوحة الإدارة</title>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="container">
+  <div class="card" x-data="login()">
+    <h1>لوحة الإدارة</h1>
+    <label>اسم المستخدم</label>
+    <input x-model="username" placeholder="admin" />
+    <label>كلمة المرور</label>
+    <input x-model="password" type="password" placeholder="••••••••" />
+    <button @click="doLogin">دخول</button>
+    <p class="muted" x-text="msg"></p>
+  </div>
+<script>
+function login(){
+  return {
+    username:'', password:'', msg:'',
+    async doLogin(){
+      this.msg='';
+      try{
+        const res = await fetch('/api/login',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username:this.username, password:this.password})});
+        const data = await res.json();
+        if(!res.ok){ this.msg = data.error || 'خطأ تسجيل الدخول'; return; }
+        localStorage.setItem('token', data.token);
+        location.href='/admin/dashboard.html';
+      }catch(e){ this.msg='خطأ اتصال'; }
+    }
+  }
+}
+</script>
+</body>
+</html>
