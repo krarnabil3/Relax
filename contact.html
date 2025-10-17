@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Relax Store | تواصل</title><link rel="stylesheet" href="assets/styles.css">
+</head><body>
+
+<header class="container nav">
+  <div class="brand">
+    <img src="assets/logo.svg" alt="Relax">
+    <b>Relax Store</b>
+  </div>
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="catalog.html">المنتجات</a>
+    <a href="about.html">عنّا</a>
+    <a href="contact.html" class="btn">تواصل</a>
+  </nav>
+</header>
+
+<section class="container grid cols-2">
+  <div class="card">
+    <h1>تواصل معنا</h1>
+    <form onsubmit="event.preventDefault(); this.reset(); alert('تم الإرسال ✅');">
+      <div class="row">
+        <div><label>الاسم</label><input required></div>
+        <div><label>الهاتف</label><input required></div>
+      </div>
+      <div class="row">
+        <div><label>البريد</label><input type="email"></div>
+        <div><label>الموضوع</label><input></div>
+      </div>
+      <label>رسالتك</label><textarea rows="5" required></textarea>
+      <button class="btn" style="margin-top:12px">إرسال</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>روابط سريعة</h2>
+    <p><a class="btn alt" href="https://instagram.com" target="_blank">راسلنا على إنستغرام</a></p>
+    <p><a class="btn" href="catalog.html">تصفّح المنتجات</a></p>
+  </div>
+</section>
+
+<footer class="container footer">
+  <p>© <span id="year"></span> Relax Store — كل الحقوق محفوظة</p>
+  <p class="notice">هذا موقع ثابت جاهز للنشر على GitHub Pages أو أي استضافة.</p>
+</footer>
+<script src="assets/app.js"></script>
+
+</body></html>
