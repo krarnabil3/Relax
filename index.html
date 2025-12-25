@@ -117,10 +117,11 @@
         <div class="logo"></div>
         <div class="title">
           <h1>شركة الضمان للأجهزة الكهربائية</h1>
-          <div class="sub">تفعيل الضمان • بحث عن فترة الضمان</div>
+          <div class="sub">حفظ • بحث عن فترة الضمان</div>
         </div>
       </div>
-      <button class="pillbtn" id="resetBtn" type="button">إعادة</button>
+      <!-- زر رقم (6): زر الإعادة -->
+<button class="pillbtn" id="resetBtn" type="button">إعادة</button>
     </div>
 
     <div class="card hero">
@@ -138,7 +139,8 @@
 
       <div class="seg" role="tablist">
         <button id="goSearch" class="active" type="button">بحث</button>
-        <button id="goActivate" type="button">تفعيل الضمان</button>
+        <!-- زر رقم (1): زر التبويب -->
+<button id="goActivate" type="button">حفظ</button>
       </div>
 
       <div class="status">
@@ -163,8 +165,10 @@
       </div>
 
       <div class="row">
-        <button class="btn primary" id="searchBtn" type="button">بحث</button>
-        <button class="btn" id="searchClearBtn" type="button">مسح</button>
+        <!-- زر رقم (3): زر البحث -->
+<button class="btn primary" id="searchBtn" type="button">بحث</button>
+        <!-- زر رقم (4): زر المسح -->
+<button class="btn" id="searchClearBtn" type="button">مسح</button>
       </div>
 
       <div class="result hidden" id="searchResult">
@@ -223,8 +227,10 @@
       </div>
 
       <div class="row">
-        <button class="btn primary" id="activateBtn" type="button">تفعيل الضمان</button>
-        <button class="btn" id="copyBtn" type="button">نسخ</button>
+        <!-- زر رقم (2): زر الحفظ الحقيقي -->
+<button class="btn primary" id="activateBtn" type="button">حفظ</button>
+        <!-- زر رقم (5): زر النسخ -->
+<button class="btn" id="copyBtn" type="button">نسخ</button>
       </div>
 
       <div class="result hidden" id="resultBox">
@@ -285,7 +291,7 @@
       window.scrollTo({top:0, behavior:"smooth"});
     }
     function showActivate(){
-      const pass = prompt("أدخل رمز فتح صفحة تفعيل الضمان:");
+      const pass = prompt("أدخل رمز فتح صفحة حفظ:");
       if(pass !== "878705"){
         alert("رمز غير صحيح");
         showSearch();
@@ -295,7 +301,7 @@
       $("searchCard").classList.add("hidden");
       $("goActivate").classList.add("active");
       $("goSearch").classList.remove("active");
-      $("pageTitle").textContent="تفعيل الضمان";
+      $("pageTitle").textContent="حفظ";
       $("pageDesc").textContent="المطلوب: الاسم الثلاثي + رقم الهاتف + صورة الفاتورة.";
       window.scrollTo({top:0, behavior:"smooth"});
     }
@@ -394,7 +400,7 @@
     }
 
     $("activateBtn").addEventListener("click", async ()=>{
-      const pass = prompt("أدخل كلمة السر لتفعيل الضمان:");
+      const pass = prompt("أدخل كلمة السر لحفظ:");
       if(pass !== "878705"){ alert("كلمة السر غير صحيحة."); return; }
       const fullName = normalizeName($("fullName").value);
       const phone = sanitizePhone($("phone").value);
@@ -438,7 +444,7 @@
         $("startDate").textContent = fmt(now);
         $("endDate").textContent = fmt(end);
 
-        alert("تم تفعيل الضمان ✅");
+        alert("تم حفظ ✅");
       }catch(e){
         alert("خطأ: " + (e?.message || e));
         console.log(e);
