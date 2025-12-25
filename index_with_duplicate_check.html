@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>شركة الضمان | تفعيل الضمان</title>
+<style>
+/* (styles unchanged for brevity – same iOS17 design) */
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial;background:#0b1220;color:#fff}
+button{cursor:pointer}
+</style>
+</head>
+<body>
+<h2>شركة الضمان للأجهزة الكهربائية</h2>
+
+<form id="form">
+<input id="name" placeholder="الاسم الثلاثي"/><br><br>
+<input id="phone" placeholder="رقم الهاتف"/><br><br>
+<input id="model" placeholder="موديل الجهاز"/><br><br>
+<button type="submit">تفعيل الضمان</button>
+</form>
+
+<script>
+const DB_NAME = "dhamanDB";
+const STORE = "records";
+
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const r = indexedDB.open(DB_NAME,1);
+    r.onupgradeneeded=()=>{
+      r.result.createObjectStore(STORE,{keyPath:"key"});
+    };
+    r.onsuccess=()=>resolve(r.result);
+    r.onerror=()=>reject(r.error);
+  });
+}
+
+async function exists(key){
+  const db = await openDB();
+  return new Promise(res=>{
+    const g = db.transaction(STORE,"readonly").objectStore(STORE).get(key);
+    g.onsuccess=()=>res(!!g.result);
+  });
+}
+
+async function save(rec){
+  const db = await openDB();
+  const tx = db.transaction(STORE,"readwrite");
+  tx.objectStore(STORE).put(rec);
+}
+
+document.getElementById("form").onsubmit = async (e)=>{
+  e.preventDefault();
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const model = document.getElementById("model").value.trim();
+
+  const key = name.toLowerCase()+"|"+phone;
+
+  if(await exists(key)){
+    alert("عذراً، هذا المستخدم موجود بالفعل وتم تفعيل الضمان مسبقاً.");
+    return;
+  }
+
+  const start = new Date();
+  const end = new Date();
+  end.setFullYear(end.getFullYear()+1);
+
+  await save({key,name,phone,model,start,end});
+  alert("تم تفعيل الضمان بنجاح ✅");
+};
+</script>
+</body>
+</html>
