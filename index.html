@@ -193,6 +193,7 @@
       </div>
 
       <div class="footer" id="cloudStatus">… جاري الاتصال بقاعدة البيانات</div>
+<div class="footer" id="debugBox" style="display:none;white-space:pre-wrap;text-align:start;direction:ltr;margin-top:6px;opacity:.85"></div>
     </div>
 
     <!-- ACTIVATION -->
@@ -358,7 +359,14 @@
   const COLLECTION = "warranties";
 
   const $ = (id) => document.getElementById(id);
-  function sanitizePhone(p){ return (p || "").trim().replace(/\s+/g,""); }
+  
+  const debugBox = document.getElementById("debugBox");
+  function showDebug(msg){
+    if(!debugBox) return;
+    debugBox.style.display = msg ? "block" : "none";
+    debugBox.textContent = msg ? String(msg) : "";
+  }
+function sanitizePhone(p){ return (p || "").trim().replace(/\s+/g,""); }
   function normalizeName(n){ return (n || "").trim().replace(/\s+/g," "); }
   function makeKey(name, phone){ return `${normalizeName(name).toLowerCase()}|${sanitizePhone(phone)}`; }
 
@@ -434,7 +442,29 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  try{
+  
+  async function firestorePing(){
+    try{
+      const ref = doc(db, "_health", "ping");
+      await getDoc(ref); // not-found still means connected
+      cloudStatus.textContent = "✅ متصل بقاعدة البيانات (Firestore)";
+      showDebug("");
+      return true;
+    }catch(e){
+      cloudStatus.textContent = "❌ فشل الاتصال بقاعدة البيانات";
+      const details = ((e && (e.code || e.name)) ? (e.code || e.name) : "error") + ": " + (e && e.message ? e.message : String(e));
+      showDebug(details + "
+
+حلول سريعة:
+1) تأكد Firestore Database مفعّل
+2) Rules منشورة وتسمح read/write
+3) جرّب تحديث قوي
+4) إذا الشبكة تمنع Google جرّب VPN");
+      return false;
+    }
+  }
+  setTimeout(firestorePing, 600);
+try{
     await getDoc(doc(db, COLLECTION, "__ping__"));
     $("cloudStatus").textContent = "✅ متصل بقاعدة البيانات";
   }catch(e){
