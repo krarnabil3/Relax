@@ -7,24 +7,24 @@
   <meta name="theme-color" content="#0A1A26" />
   <style>
     :root {
-      --bgA:#071621;
-      --bgB:#0A2130;
-      --glass: rgba(255,255,255,.10);
-      --glass2: rgba(255,255,255,.07);
+      --bgA:#050E15;
+      --bgB:#071B28;
+      --glass: rgba(255,255,255,.09);
+      --glass2: rgba(255,255,255,.06);
       --stroke: rgba(255,255,255,.14);
       --stroke2: rgba(255,255,255,.10);
       --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
-      --muted2: rgba(255,255,255,.55);
+      --muted: rgba(255,255,255,.66);
+      --muted2: rgba(255,255,255,.52);
       --blue:#0A84FF;
-      --green:#34C759;
+      --green:#32D74B;
       --red:#FF453A;
       --yellow:#FFD60A;
-      --shadow: 0 18px 60px rgba(0,0,0,.40);
+      --shadow: 0 18px 60px rgba(0,0,0,.46);
       --radiusXL: 28px;
       --radiusL: 22px;
       --radiusM: 18px;
-      --blur: 18px;
+      --blur: 20px;
     }
 
     * { box-sizing: border-box; }
@@ -321,6 +321,86 @@
     }
 
     .hidden { display:none !important; }
+  
+    /* Passcode sheet */
+    .sheetBackdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      padding: 18px;
+      z-index: 9999;
+    }
+    .sheet{
+      width:min(560px, 100%);
+      border-radius: 28px;
+      background: rgba(255,255,255,.11);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 28px 80px rgba(0,0,0,.55);
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      overflow:hidden;
+    }
+    .sheetHead{
+      padding: 16px 18px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .sheetHead h3{
+      margin:0;
+      font-size: 16px;
+      letter-spacing:.2px;
+    }
+    .sheetHead .x{
+      border:none;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.20);
+      border: 1px solid rgba(255,255,255,.16);
+      color: var(--text);
+      cursor:pointer;
+    }
+    .sheetBody{
+      padding: 0 18px 18px;
+    }
+    .pinRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      margin-top: 10px;
+    }
+    .pin{
+      flex: 1;
+      text-align:center;
+      letter-spacing: .35em;
+      font-weight: 750;
+      font-size: 18px;
+    }
+    .hint{
+      margin-top: 10px;
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .lockTag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.14);
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
   </style>
 </head>
 <body>
@@ -472,6 +552,26 @@
     <div class="safe"></div>
   </div>
 
+
+  <!-- Passcode Sheet -->
+  <div class="sheetBackdrop" id="sheetBackdrop" role="dialog" aria-modal="true" aria-label="رمز تفعيل صفحة الضمان">
+    <div class="sheet">
+      <div class="sheetHead">
+        <h3>رمز الدخول لصفحة تفعيل الضمان</h3>
+        <button class="x" id="closeSheet" aria-label="إغلاق">✕</button>
+      </div>
+      <div class="sheetBody">
+        <div class="lockTag">🔒 صفحة تفعيل الضمان مقفلة برمز</div>
+        <div class="pinRow">
+          <input id="pinInput" class="pin" inputmode="numeric" autocomplete="one-time-code" placeholder="••••••" maxlength="6" />
+          <button class="btn primary" id="pinBtn" type="button" style="min-width:140px;flex:0 0 auto;">دخول</button>
+        </div>
+        <div class="hint">ملاحظة: الرمز مكوّن من 6 أرقام. بعد إدخاله بشكل صحيح سيتفتح تبويب “تفعيل الضمان”.</div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- Firebase (Compat) - stable for static hosts -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -480,6 +580,27 @@
     const firebaseConfig = {"apiKey": "AIzaSyBMZbRFRU5-GyAmEwLHDspnY6PkEcaz6Ak", "authDomain": "albaman-f8a20.firebaseapp.com", "projectId": "albaman-f8a20", "storageBucket": "albaman-f8a20.firebasestorage.app", "messagingSenderId": "770267943286", "appId": "1:770267943286:web:e3da1c43d65740d7b52a57", "measurementId": "G-CB2PYMZSZT"};
     const HELP_PHONE = "9647722806645";
     const WARRANTY_DAYS = 365;
+
+
+
+    const PASSCODE = "878705";
+    const UNLOCK_KEY = "dhaman_activate_unlocked";
+
+    function isUnlocked(){
+      return localStorage.getItem(UNLOCK_KEY) === "1";
+    }
+    function setUnlocked(v){
+      localStorage.setItem(UNLOCK_KEY, v ? "1" : "0");
+    }
+
+    function openSheet(){
+      $("sheetBackdrop").style.display = "flex";
+      $("pinInput").value = "";
+      setTimeout(()=> $("pinInput").focus(), 50);
+    }
+    function closeSheet(){
+      $("sheetBackdrop").style.display = "none";
+    }
 
     const $ = (id)=>document.getElementById(id);
     const cloudStatus = $("cloudStatus");
@@ -509,6 +630,13 @@
       return `${y}-${m}-${da} ${hh}:${mm}`;
     }
 
+
+    function refreshTabLock(){
+      const locked = !isUnlocked();
+      $("goActivate").textContent = locked ? "تفعيل الضمان 🔒" : "تفعيل الضمان";
+    }
+
+
     function showActivate(){
       $("activateCard").classList.remove("hidden");
       $("searchCard").classList.add("hidden");
@@ -529,17 +657,18 @@
       $("pageTitle").textContent="بحث عن فترة الضمان";
       $("pageDesc").textContent="اكتب الاسم الثلاثي ورقم الهاتف لعرض تاريخ انتهاء الضمان.";
     }
-    $("goActivate").onclick = showActivate;
+    $("goActivate").onclick = ()=>{ if(!isUnlocked()) return openSheet(); showActivate(); };
     $("goSearch").onclick = showSearch;
     $("backBtn").onclick = showActivate;
 
     $("resetBtn").onclick = ()=>{
+
       $("fullName").value=""; $("phone").value=""; $("model").value=""; $("address").value=""; $("code").value="";
       $("searchName").value=""; $("searchPhone").value="";
       $("resultBox").classList.add("hidden");
       $("searchResult").classList.add("hidden");
       $("searchNote").textContent="";
-      showActivate();
+      showSearch();
       window.scrollTo({top:0, behavior:"smooth"});
     };
 
@@ -606,6 +735,7 @@
     }
     setConn("warn","... جاري الاتصال بقاعدة البيانات");
     ping();
+    refreshTabLock();
 
     // Activate warranty (transaction to prevent duplicates)
     $("activateBtn").onclick = async ()=>{
@@ -712,7 +842,7 @@
       }
     };
 
-    showActivate();
+    showSearch();
   </script>
 </body>
 </html>
