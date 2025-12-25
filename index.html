@@ -308,9 +308,16 @@
           <textarea id="address" placeholder="المحافظة - المدينة - المنطقة - أقرب نقطة دالة"></textarea>
         </div>
 
-        <div>
-          <label>كود المنتج (اختياري)</label>
-          <input id="code" placeholder="مثال: DG-25A7K9" />
+        $1
+        <div style="grid-column:1/-1">
+          <label>صورة الفاتورة/الجهاز (اختياري)</label>
+          <input id="invoiceImageFile" type="file" accept="image/*" capture="environment" style="padding:12px" />
+          <div class="help">الصورة تنحفظ مع بيانات الضمان وتظهر عند البحث.</div>
+          <div class="result hidden" id="imgPreviewBox" style="margin-top:10px">
+            <div class="k">معاينة الصورة</div>
+            <div class="v"><img id="imgPreview" style="width:100%;border-radius:18px;border:1px solid rgba(255,255,255,.14)" /></div>
+            <div class="footer">إذا كانت الصورة كبيرة، قلّلها قبل الرفع.</div>
+          </div>
         </div>
 
         <div style="grid-column:1/-1">
@@ -603,18 +610,8 @@
       const series = ($("series").value||"").trim();
       const code = ($("code").value||"").trim() || null;
 
-      // صورة الفاتورة (اختياري)
-      let invoiceImage = null;
-      try{
-        const f = $("invoiceImage").files?.[0];
-        if(f){
-          invoiceImage = await fileToDataURLResized(f, 1280, 0.78);
-          // حماية من تضخم الحجم (حد تقريبي ~ 800KB)
-          if(invoiceImage && invoiceImage.length > 900000){
-            invoiceImage = await fileToDataURLResized(f, 1024, 0.72);
-          }
-        }
-      }catch(_){}
+      // image (optional)
+      const invoiceImage = window.__invoiceImageData || null;
 
       if(fullName.split(" ").length < 3) return alert("رجاءً اكتب الاسم الثلاثي (3 كلمات على الأقل).");
       if(phone.length < 10) return alert("رجاءً اكتب رقم هاتف صحيح.");
@@ -623,13 +620,55 @@
       if(!db) return alert("قاعدة البيانات غير جاهزة. تأكد من Firestore.");
 
       try{
+        // 1) نفس (الاسم + الهاتف) = نفس الزبون (DocID)
         const id = await docIdFor(fullName, phone);
         const ref = db.collection("warranties").doc(id);
+        const existsSnap = await ref.get();
+        if(existsSnap.exists){
+          const d = existsSnap.data() || {};
+          const end = d.endISO ? new Date(d.endISO) : null;
+          alert(
+            "عذراً، هذا الزبون موجود مسبقاً ✅\n\n" +
+            "الاسم: " + (d.fullName||"-") + "\n" +
+            "الهاتف: " + (d.phone||"-") + "\n" +
+            "الموديل: " + (d.model||"-") + "\n" +
+            "انتهاء الضمان: " + (end ? fmt(end) : "-")
+          );
+          // جهّز البحث تلقائياً
+          $("searchName").value = d.fullName || fullName;
+          $("searchPhone").value = d.phone || phone;
+          showSearch();
+          return;
+        }
+
+        // 2) نفس رقم الهاتف مستخدم مسبقاً (حتى لو الاسم مختلف)
+        // يساعدك تكشف زبون سابق بسرعة
+        const phoneQuery = await db.collection("warranties").where("phone","==",phone).limit(1).get();
+        if(!phoneQuery.empty){
+          const doc = phoneQuery.docs[0];
+          const d = doc.data() || {};
+          const end = d.endISO ? new Date(d.endISO) : null;
+
+          const go = confirm(
+            "تنبيه ⚠️\n" +
+            "هذا رقم الهاتف مسجّل مسبقاً لزبون آخر.\n\n" +
+            "الاسم المسجّل: " + (d.fullName||"-") + "\n" +
+            "الموديل: " + (d.model||"-") + "\n" +
+            "انتهاء الضمان: " + (end ? fmt(end) : "-") + "\n\n" +
+            "هل تريد فتح بياناته في صفحة البحث؟"
+          );
+          if(go){
+            $("searchName").value = d.fullName || "";
+            $("searchPhone").value = d.phone || phone;
+            showSearch();
+            $("searchBtn").click();
+          }
+          return;
+        }
 
         const start = new Date();
         const end = new Date(start);
         end.setDate(end.getDate() + WARRANTY_DAYS);
-
         await db.runTransaction(async (tx)=>{
           const snap = await tx.get(ref);
           if(snap.exists){
@@ -637,9 +676,9 @@
           }
           tx.set(ref, {
             fullName, phone, model, address, series, code,
+            invoiceImage, // base64 (optional)
             startISO: start.toISOString(),
             endISO: end.toISOString(),
-            invoiceImage, // dataURL (JPEG) optional
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           });
         });
