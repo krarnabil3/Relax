@@ -108,7 +108,21 @@
     .slider:before{position:absolute;content:"";height:26px;width:26px;right:3px;top:2px;background:white;border-radius:999px;transition:.2s}
     .switch input:checked + .slider{background:rgba(50,215,75,.55)}
     .switch input:checked + .slider:before{transform:translateX(-22px)}
-  </style>
+  
+    .historyWrap{margin-top:14px; padding-top:10px; border-top:1px dashed var(--stroke2); display:none}
+    .hTitle{font-size:13px; color:rgba(255,255,255,.78); margin-bottom:10px}
+    .historyList{display:grid; gap:10px}
+    .pCard{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10); border-radius:16px; padding:12px}
+    .pTop{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px}
+    .pTag{font-size:12px; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12)}
+    .pTag.ok{background:rgba(52,211,153,.12); border-color:rgba(52,211,153,.28)}
+    .pTag.bad{background:rgba(244,63,94,.12); border-color:rgba(244,63,94,.28)}
+    .pMeta{font-size:13px; color:rgba(255,255,255,.82); line-height:1.6}
+    .pMeta b{color:#fff}
+    .pImg{margin-top:10px}
+    .pImg img{width:100%; max-height:320px; object-fit:cover; border-radius:14px; border:1px solid rgba(255,255,255,.14)}
+
+</style>
 </head>
 <body>
   <div class="wrap">
@@ -178,6 +192,12 @@
             <div class="v"><img id="rImage" class="preview" alt="invoice image"/></div>
           </div>
         </div>
+        
+        <div class="historyWrap" id="purchaseHistoryWrap">
+          <div class="hTitle">سجل المشتريات</div>
+          <div id="purchaseHistory" class="historyList"></div>
+        </div>
+
         <div class="badge">
           <span class="dot" id="searchDot"></span>
           <span id="searchStatusText">-</span>
@@ -386,6 +406,56 @@
       const end = new Date(endISO);
       return fmt(end);
     }
+    function daysBetween(a,b){
+      const ms = b.getTime() - a.getTime();
+      return ms / (1000*60*60*24);
+    }
+    function warrantyStatus(endISO){
+      const end = new Date(endISO);
+      const now = new Date();
+      const diffDays = daysBetween(now, end);
+      if(diffDays >= 0){
+        const d = Math.floor(diffDays);
+        const h = Math.floor((diffDays - d)*24);
+        if(d <= 0) return { ok:true, text:`🟢 داخل الضمان (متبقي ${h} ساعة)` , cls:"ok" };
+        return { ok:true, text:`🟢 داخل الضمان (متبقي ${d} يوم)` , cls:"ok" };
+      }else{
+        const d = Math.abs(Math.ceil(diffDays));
+        return { ok:false, text:`🔴 الضمان منتهي (منذ ${d} يوم)` , cls:"bad" };
+      }
+    }
+    function renderHistory(purchases){
+      const wrap = $("purchaseHistoryWrap");
+      const list = $("purchaseHistory");
+      list.innerHTML = "";
+      if(!Array.isArray(purchases) || purchases.length === 0){
+        wrap.style.display = "none";
+        return;
+      }
+      // sort newest first by startISO
+      purchases = purchases.slice().sort((a,b)=>String(b.startISO||"").localeCompare(String(a.startISO||"")));
+      purchases.forEach((p, i)=>{
+        const st = p.startISO ? fmt(new Date(p.startISO)) : "-";
+        const en = p.endISO ? fmt(new Date(p.endISO)) : "-";
+        const s = p.endISO ? warrantyStatus(p.endISO) : {ok:false,text:"-",cls:""};
+        const card = document.createElement("div");
+        card.className = "pCard";
+        card.innerHTML = `
+          <div class="pTop">
+            <div class="pTag ${s.cls}">${i===0 ? "الأحدث" : "سابق"} • ${s.text}</div>
+            <div class="pTag">#${purchases.length - i}</div>
+          </div>
+          <div class="pMeta">
+            <div><b>بداية الضمان:</b> ${st}</div>
+            <div><b>انتهاء الضمان:</b> ${en}</div>
+          </div>
+          ${p.invoiceImage ? `<div class="pImg"><img src="${p.invoiceImage}" alt="invoice"/></div>` : ``}
+        `;
+        list.appendChild(card);
+      });
+      wrap.style.display = "block";
+    }
+
 
     $("activateBtn").addEventListener("click", async ()=>{
       const fullName = normalizeName($("fullName").value);
@@ -418,12 +488,20 @@
         await ref.set({
           fullName,
           phone,
+          // latest purchase (for quick display)
           invoiceImage: img,
           startISO: now.toISOString(),
           endISO: end.toISOString(),
           purchaseCount: newCount,
           lastPurchaseAt: firebase.firestore.FieldValue.serverTimestamp(),
           isPrevCustomer: !!snap.exists,
+          // full history
+          purchases: firebase.firestore.FieldValue.arrayUnion({
+            startISO: now.toISOString(),
+            endISO: end.toISOString(),
+            invoiceImage: img,
+            createdAtISO: now.toISOString()
+          })
         }, { merge:true });
 
         $("resultBox").classList.remove("hidden");
@@ -458,7 +536,7 @@
         $("rName").textContent = d.fullName || "-";
         $("rPhone").textContent = d.phone || "-";
         $("rEnd").textContent = d.endISO ? formatEnd(d.endISO) : "-";
-        $("rCount").textContent = (d.purchaseCount || 1) + " مرة";
+        $("rCount").textContent = ((d.purchaseCount || (Array.isArray(d.purchases)?d.purchases.length:1)) || 1) + " مرة";
 
         if(d.invoiceImage){
           $("rImage").src = d.invoiceImage;
@@ -467,10 +545,25 @@
           $("rImageWrap").classList.add("hidden");
         }
 
-        const end = d.endISO ? new Date(d.endISO) : null;
-        const active = end ? (new Date() <= end) : false;
-        $("searchDot").className = active ? "dot ok" : "dot bad";
-        $("searchStatusText").textContent = active ? "🟢 الجهاز داخل الضمان" : "🔴 الضمان غير نافذ";
+        // Build purchases history (new schema) or fallback (old schema)
+        let purchases = Array.isArray(d.purchases) ? d.purchases : [];
+        if(purchases.length === 0 && (d.startISO || d.endISO || d.invoiceImage)){
+          purchases = [{
+            startISO: d.startISO || "",
+            endISO: d.endISO || "",
+            invoiceImage: d.invoiceImage || "",
+            createdAtISO: d.startISO || ""
+          }];
+        }
+
+        // Overall status based on latest end date
+        const latest = purchases.slice().sort((a,b)=>String(b.endISO||"").localeCompare(String(a.endISO||"")))[0];
+        const s = (latest && latest.endISO) ? warrantyStatus(latest.endISO) : {ok:false,text:"-",cls:"bad"};
+        $("searchDot").className = "dot " + (s.ok ? "ok" : "bad");
+        $("searchStatusText").textContent = s.text;
+
+        // Render history cards (all purchases)
+        renderHistory(purchases);
 
         $("searchResult").classList.remove("hidden");
         $("searchResult").scrollIntoView({behavior:"smooth", block:"start"});
