@@ -234,6 +234,7 @@
   border: 1px solid rgba(255,255,255,.10);
 }
 #welcomeShine{
+  pointer-events: none;
   position: absolute;
   inset: -40% -40%;
   background: conic-gradient(from 180deg, transparent 0 30%, rgba(46,198,255,.14) 35%, rgba(255,255,255,.10) 45%, transparent 55% 100%);
@@ -853,6 +854,80 @@
   // tap outside to close
   overlay.addEventListener("click", (e)=>{
     if(e.target === overlay) hide();
+  });
+})();
+</script>
+<script>
+// ===== Activation Page Password (prompt every time) =====
+(function(){
+  const PASS = "878705";
+
+  function isActivationVisible(){
+    const el = document.getElementById("activateSection") || document.getElementById("activationSection") || document.getElementById("tabActivate") || document.querySelector("[data-page='activate']");
+    if(!el) return false;
+    const style = window.getComputedStyle(el);
+    return style.display !== "none" && style.visibility !== "hidden" && style.opacity !== "0";
+  }
+
+  function showSearchTabIfPossible(){
+    // common IDs in our versions
+    const searchBtn = document.getElementById("searchTabBtn") || document.getElementById("btnSearchTab") || document.querySelector("[data-tab='search']");
+    const searchSec = document.getElementById("searchSection") || document.getElementById("tabSearch") || document.querySelector("[data-page='search']");
+    const actSec = document.getElementById("activateSection") || document.getElementById("activationSection") || document.getElementById("tabActivate") || document.querySelector("[data-page='activate']");
+    if(searchSec && actSec){
+      actSec.style.display = "none";
+      searchSec.style.display = "";
+    }
+    if(searchBtn) searchBtn.click();
+  }
+
+  function requirePass(){
+    const p = prompt("أدخل كلمة السر لفتح صفحة تفعيل الضمان:");
+    if(p !== PASS){
+      alert("كلمة السر غير صحيحة.");
+      showSearchTabIfPossible();
+      return false;
+    }
+    return true;
+  }
+
+  // Intercept clicks on activation tab buttons/links
+  function attach(){
+    const candidates = [
+      document.getElementById("activateTabBtn"),
+      document.getElementById("btnActivateTab"),
+      document.querySelector("[data-tab='activate']"),
+      document.querySelector("[data-target='activate']"),
+      ...Array.from(document.querySelectorAll("button, a")).filter(el=>{
+        const t = (el.textContent||"").trim();
+        return t === "تفعيل الضمان" || /تفعيل\s+الضمان/.test(t);
+      })
+    ].filter(Boolean);
+
+    candidates.forEach(btn=>{
+      btn.addEventListener("click", (e)=>{
+        // allow the UI switch to occur first, then validate
+        setTimeout(()=>{
+          if(isActivationVisible()){
+            const ok = requirePass();
+            if(!ok){
+              // prevent user from staying there
+              // best effort: hide activation section
+              const actSec = document.getElementById("activateSection") || document.getElementById("activationSection") || document.getElementById("tabActivate") || document.querySelector("[data-page='activate']");
+              if(actSec) actSec.style.display = "none";
+            }
+          }
+        }, 50);
+      }, true);
+    });
+  }
+
+  // Also if activation is already visible on load (just in case)
+  window.addEventListener("load", ()=>{
+    attach();
+    if(isActivationVisible()){
+      requirePass();
+    }
   });
 })();
 </script>
