@@ -238,32 +238,8 @@
     </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
-// 🔒 قفل صفحة تفعيل الضمان (فقط زر الانتقال)
-function openActivatePage(){
-  const pass = prompt("أدخل رمز فتح صفحة تفعيل الضمان:");
-  if(pass !== "878705"){
-    alert("رمز غير صحيح");
-    return;
-  }
-  document.getElementById("activateSection").style.display = "block";
-  document.getElementById("searchSection").style.display = "none";
-}
-
-</script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js">
-// 🔒 قفل صفحة تفعيل الضمان (فقط زر الانتقال)
-function openActivatePage(){
-  const pass = prompt("أدخل رمز فتح صفحة تفعيل الضمان:");
-  if(pass !== "878705"){
-    alert("رمز غير صحيح");
-    return;
-  }
-  document.getElementById("activateSection").style.display = "block";
-  document.getElementById("searchSection").style.display = "none";
-}
-
-</script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script>
     const firebaseConfig = {"apiKey": "AIzaSyBMZbRFRU5-GyAmEwLHDspnY6PkEcaz6Ak", "authDomain": "albaman-f8a20.firebaseapp.com", "projectId": "albaman-f8a20", "storageBucket": "albaman-f8a20.firebasestorage.app", "messagingSenderId": "770267943286", "appId": "1:770267943286:web:e3da1c43d65740d7b52a57", "measurementId": "G-CB2PYMZSZT"};
@@ -309,6 +285,12 @@ function openActivatePage(){
       window.scrollTo({top:0, behavior:"smooth"});
     }
     function showActivate(){
+      const pass = prompt("أدخل رمز فتح صفحة تفعيل الضمان:");
+      if(pass !== "878705"){
+        alert("رمز غير صحيح");
+        showSearch();
+        return;
+      }
       $("activateCard").classList.remove("hidden");
       $("searchCard").classList.add("hidden");
       $("goActivate").classList.add("active");
@@ -517,18 +499,6 @@ function openActivatePage(){
     });
 
     showSearch();
-  
-// 🔒 قفل صفحة تفعيل الضمان (فقط زر الانتقال)
-function openActivatePage(){
-  const pass = prompt("أدخل رمز فتح صفحة تفعيل الضمان:");
-  if(pass !== "878705"){
-    alert("رمز غير صحيح");
-    return;
-  }
-  document.getElementById("activateSection").style.display = "block";
-  document.getElementById("searchSection").style.display = "none";
-}
-
-</script>
+  </script>
 </body>
 </html>
