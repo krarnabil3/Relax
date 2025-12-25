@@ -502,7 +502,7 @@ const fullName = normalizeName($("fullName").value);
           startISO: now.toISOString(),
           endISO: end.toISOString(),
           invoiceImage: img,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          createdAtISO: now.toISOString()
         };
 
         await ref.set({
@@ -554,6 +554,15 @@ $("resultBox").classList.remove("hidden");
         
         // اعرض آخر فترة ضمان بناءً على آخر عملية شراء (إن وجدت)
         const purchases = Array.isArray(d.purchases) ? d.purchases : [];
+        // توافق مع البيانات القديمة (قبل إضافة سجل الفواتير)
+        if(purchases.length === 0 && (d.invoiceImage || d.startISO || d.endISO)){
+          purchases.push({
+            startISO: d.startISO || null,
+            endISO: d.endISO || null,
+            invoiceImage: d.invoiceImage || null,
+            createdAtISO: null
+          });
+        }
         const latest = purchases.length
           ? purchases
               .filter(p=>p && p.endISO)
