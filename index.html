@@ -176,10 +176,13 @@
           <div><div class="k">الاسم</div><div class="v" id="rName">-</div></div>
           <div><div class="k">الهاتف</div><div class="v" id="rPhone">-</div></div>
           <div style="grid-column:1/-1"><div class="k">انتهاء الضمان</div><div class="v" id="rEnd">-</div></div>
+          <div><div class="k">المتبقي (أيام)</div><div class="v" id="rDaysLeft">-</div></div>
+          <div><div class="k">العدّ التنازلي</div><div class="v" id="rCountdown">-</div></div>
+
           <div style="grid-column:1/-1"><div class="k">عدد مرات الشراء</div><div class="v" id="rCount">-</div></div>
-          <div style="grid-column:1/-1" id="rImageWrap" class="hidden">
-            <div class="k">صورة الفاتورة</div>
-            <div class="v"><img id="rImage" class="preview" alt="invoice image"/></div>
+          <div style="grid-column:1/-1" id="rHistoryWrap" class="hidden">
+            <div class="k">الفواتير السابقة (الأحدث أولاً)</div>
+            <div class="v" id="rHistory" style="display:grid;gap:12px"></div>
           </div>
         </div>
         <div class="badge">
@@ -313,6 +316,7 @@
       ["fullName","phone","searchName","searchPhone"].forEach(id=>{ const el=$(id); if(el) el.value=""; });
       $("searchResult").classList.add("hidden");
       $("resultBox").classList.add("hidden");
+      if(window.__countdownTimer) { try{ clearInterval(window.__countdownTimer);}catch(_){ } }
       $("imgPreviewBox").classList.add("hidden");
       window.__invoiceImageData = null;
       $("isPrevCustomer").checked = false;
@@ -399,6 +403,72 @@
       return fmt(end);
     }
 
+    // ---- Countdown for search result ----
+    let __countdownTimer = null;
+    function pad2(n){ return String(n).padStart(2,"0"); }
+    function startWarrantyCountdown(endDate){
+      if(__countdownTimer) clearInterval(__countdownTimer);
+      const daysEl = $("rDaysLeft");
+      const cdEl = $("rCountdown");
+
+      function tick(){
+        const now = new Date();
+        const diff = endDate - now;
+        if(diff <= 0){
+          daysEl.textContent = "0";
+          cdEl.textContent = "انتهى";
+          $("searchDot").className = "dot bad";
+          $("searchStatusText").textContent = "🔴 خارج الضمان";
+          if(__countdownTimer){ clearInterval(__countdownTimer); __countdownTimer = null; }
+          return;
+        }
+        const totalSec = Math.floor(diff/1000);
+        const days = Math.floor(totalSec/86400);
+        const hrs = Math.floor((totalSec%86400)/3600);
+        const mins = Math.floor((totalSec%3600)/60);
+        const secs = totalSec%60;
+
+        daysEl.textContent = String(days);
+        cdEl.textContent = `${days} يوم • ${pad2(hrs)}:${pad2(mins)}:${pad2(secs)}`;
+      }
+      tick();
+      __countdownTimer = setInterval(tick, 1000);
+    }
+
+    function renderHistory(purchases){
+      const wrap = $("rHistoryWrap");
+      const box = $("rHistory");
+      if(!purchases || !Array.isArray(purchases) || purchases.length === 0){
+        wrap.classList.add("hidden");
+        box.innerHTML = "";
+        return;
+      }
+      // sort newest first by startISO
+      const list = purchases
+        .filter(p=>p && p.startISO && p.endISO)
+        .slice()
+        .sort((a,b)=> (new Date(b.startISO)) - (new Date(a.startISO)));
+
+      wrap.classList.remove("hidden");
+      box.innerHTML = list.map((p, i)=>{
+        const s = p.startISO ? fmt(new Date(p.startISO)) : "-";
+        const e = p.endISO ? fmt(new Date(p.endISO)) : "-";
+        const img = p.invoiceImage ? `<img class="preview" alt="invoice ${i+1}" src="${p.invoiceImage}"/>` : "";
+        return `
+          <div class="result" style="margin-top:0">
+            <div class="k">فاتورة #${i+1}</div>
+            <div class="v" style="margin-top:8px">
+              <div style="display:grid;gap:6px">
+                <div><span style="color:var(--muted2);font-size:12px">بداية الضمان:</span> ${s}</div>
+                <div><span style="color:var(--muted2);font-size:12px">انتهاء الضمان:</span> ${e}</div>
+              </div>
+              ${img ? `<div style="margin-top:10px">${img}</div>` : ``}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
     $("activateBtn").addEventListener("click", async ()=>{
 const fullName = normalizeName($("fullName").value);
       const phone = sanitizePhone($("phone").value);
@@ -427,18 +497,30 @@ const fullName = normalizeName($("fullName").value);
         const prevCount = snap.exists ? (snap.data().purchaseCount || 1) : 0;
         const newCount = snap.exists ? (prevCount + 1) : 1;
 
+        
+        const purchaseObj = {
+          startISO: now.toISOString(),
+          endISO: end.toISOString(),
+          invoiceImage: img,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
         await ref.set({
           fullName,
           phone,
-          invoiceImage: img,
-          startISO: now.toISOString(),
-          endISO: end.toISOString(),
+          // آخر شراء (للإظهار السريع)
+          startISO: purchaseObj.startISO,
+          endISO: purchaseObj.endISO,
+          invoiceImage: purchaseObj.invoiceImage,
+          // سجل كل المشتريات/الفواتير
+          purchases: snap.exists
+            ? firebase.firestore.FieldValue.arrayUnion(purchaseObj)
+            : [purchaseObj],
           purchaseCount: newCount,
           lastPurchaseAt: firebase.firestore.FieldValue.serverTimestamp(),
           isPrevCustomer: !!snap.exists,
         }, { merge:true });
-
-        $("resultBox").classList.remove("hidden");
+$("resultBox").classList.remove("hidden");
         $("startDate").textContent = fmt(now);
         $("endDate").textContent = fmt(end);
 
@@ -469,20 +551,33 @@ const fullName = normalizeName($("fullName").value);
 
         $("rName").textContent = d.fullName || "-";
         $("rPhone").textContent = d.phone || "-";
-        $("rEnd").textContent = d.endISO ? formatEnd(d.endISO) : "-";
-        $("rCount").textContent = (d.purchaseCount || 1) + " مرة";
+        
+        // اعرض آخر فترة ضمان بناءً على آخر عملية شراء (إن وجدت)
+        const purchases = Array.isArray(d.purchases) ? d.purchases : [];
+        const latest = purchases.length
+          ? purchases
+              .filter(p=>p && p.endISO)
+              .slice()
+              .sort((a,b)=> (new Date(b.startISO||0)) - (new Date(a.startISO||0)))[0]
+          : null;
 
-        if(d.invoiceImage){
-          $("rImage").src = d.invoiceImage;
-          $("rImageWrap").classList.remove("hidden");
-        } else {
-          $("rImageWrap").classList.add("hidden");
-        }
+        const endISO = (latest && latest.endISO) ? latest.endISO : d.endISO;
+        $("rEnd").textContent = endISO ? formatEnd(endISO) : "-";
 
-        const end = d.endISO ? new Date(d.endISO) : null;
+        const count = purchases.length ? purchases.length : (d.purchaseCount || 1);
+        $("rCount").textContent = count + " مرة";
+
+        // الفواتير السابقة + الصور
+        renderHistory(purchases);
+
+        // حالة الضمان + العدّ التنازلي
+        const end = endISO ? new Date(endISO) : null;
         const active = end ? (new Date() <= end) : false;
         $("searchDot").className = active ? "dot ok" : "dot bad";
-        $("searchStatusText").textContent = active ? "🟢 الجهاز داخل الضمان" : "🔴 الضمان غير نافذ";
+        $("searchStatusText").textContent = active ? "🟢 داخل الضمان" : "🔴 خارج الضمان";
+
+        if(end) startWarrantyCountdown(end);
+
 
         $("searchResult").classList.remove("hidden");
         $("searchResult").scrollIntoView({behavior:"smooth", block:"start"});
