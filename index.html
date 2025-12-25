@@ -169,6 +169,128 @@
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
     }
 
+  
+    /* ===== iOS Glass Buttons (iPhone-style) ===== */
+    .btn, .pillbtn{
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.10);
+      box-shadow:
+        0 16px 38px rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.20),
+        inset 0 -1px 0 rgba(0,0,0,.18);
+      transform: translateZ(0);
+      transition: transform .12s ease, filter .12s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .btn::before, .pillbtn::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.22), transparent 45%);
+      transform: rotate(8deg);
+      pointer-events:none;
+    }
+    .btn::after, .pillbtn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.16) 18%, transparent 36%);
+      transform: translateX(-130%);
+      pointer-events:none;
+    }
+    .btn:active, .pillbtn:active{
+      transform: scale(.985);
+      filter: brightness(.98);
+      box-shadow:
+        0 10px 24px rgba(0,0,0,.30),
+        inset 0 1px 0 rgba(255,255,255,.18),
+        inset 0 -1px 0 rgba(0,0,0,.20);
+    }
+    .btn:hover::after, .pillbtn:hover::after{ animation: shine 1.2s ease; }
+    @keyframes shine{
+      from{ transform: translateX(-130%); }
+      to{ transform: translateX(130%); }
+    }
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(10,132,255,.55), rgba(10,132,255,.22));
+      border: 1px solid rgba(120,195,255,.30);
+      box-shadow:
+        0 18px 44px rgba(10,132,255,.18),
+        0 16px 38px rgba(0,0,0,.24),
+        inset 0 1px 0 rgba(255,255,255,.22),
+        inset 0 -1px 0 rgba(0,0,0,.14);
+    }
+    .btn.ghost{
+      background: rgba(0,0,0,.18);
+    }
+
+  
+    /* ===== Motion Welcome (CSS Motion Graphics) ===== */
+    .welcomeMotion{
+      position:relative;
+      border-radius:22px;
+      overflow:hidden;
+      padding:16px 14px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.18);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      min-height:124px;
+    }
+    .wmBg{position:absolute;inset:0;pointer-events:none}
+    .blob{
+      position:absolute; width:180px; height:180px; border-radius:999px;
+      filter: blur(18px);
+      opacity:.75;
+      mix-blend-mode: screen;
+      animation: floaty 7.5s ease-in-out infinite;
+    }
+    .blob.b1{right:-60px; top:-60px; background: radial-gradient(circle at 30% 30%, rgba(10,132,255,.95), rgba(10,132,255,0));}
+    .blob.b2{left:-70px; bottom:-70px; background: radial-gradient(circle at 30% 30%, rgba(50,215,75,.70), rgba(50,215,75,0)); animation-duration: 8.6s;}
+    .blob.b3{right:40px; bottom:-90px; background: radial-gradient(circle at 30% 30%, rgba(255,214,10,.60), rgba(255,214,10,0)); animation-duration: 9.4s;}
+    @keyframes floaty{
+      0%,100%{ transform: translate3d(0,0,0) scale(1); }
+      50%{ transform: translate3d(-18px, 14px, 0) scale(1.05); }
+    }
+    .spark{
+      position:absolute; width:8px; height:8px; border-radius:999px;
+      background: rgba(255,255,255,.85);
+      box-shadow: 0 0 0 6px rgba(255,255,255,.08);
+      opacity:.0;
+      animation: sparkle 2.9s ease-in-out infinite;
+    }
+    .spark.s1{left:18px; top:18px;}
+    .spark.s2{left:54%; top:22px; animation-delay:.7s}
+    .spark.s3{right:28px; bottom:22px; animation-delay:1.2s}
+    @keyframes sparkle{
+      0%, 70%, 100%{ transform: scale(.6); opacity:0; }
+      78%{ opacity:.85; transform: scale(1); }
+      86%{ opacity:.25; transform: scale(1.2); }
+    }
+    .wmText{position:relative; z-index:1}
+    .wmBadge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 12px; border-radius:999px;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.16);
+      font-size:12px; color:var(--text);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.16);
+    }
+    .wmTitle{margin-top:10px; font-size:16px; font-weight:800; letter-spacing:.2px}
+    .wmDesc{margin-top:6px; color:var(--muted); line-height:1.7; font-size:13px}
+
+  
+    /* iOS-like button stack spacing */
+    .row{gap:10px}
+    @media (max-width:760px){
+      .row{flex-direction:column}
+      .btn{min-width:unset}
+    }
+
   </style>
 </head>
 <body>
@@ -190,9 +312,27 @@
       <p id="pageDesc">اكتب الاسم الثلاثي ورقم الهاتف لعرض تاريخ انتهاء الضمان مع الصورة.</p>
 
       <!-- رسالة ترحيبية ثابتة -->
+      
       <div class="result" id="welcomeBanner">
-        <div class="k">🎉 رسالة ترحيبية</div>
-        <div class="v" style="line-height:1.75;margin-top:6px">
+        <div class="welcomeMotion">
+          <div class="wmBg">
+            <span class="blob b1"></span>
+            <span class="blob b2"></span>
+            <span class="blob b3"></span>
+            <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span>
+          </div>
+
+          <div class="wmText">
+            <div class="wmBadge">✨ تهانينا</div>
+            <div class="wmTitle">جهاز راقي • أداء قوي • ضمان حقيقي</div>
+            <div class="wmDesc">
+              مبروك! لقد قمت بشراء <b>جهاز أصلي</b> وبـ <b>ضمان حقيقي لمدة سنة كاملة</b> ✅
+              <br/>خدمة الضمان على الرقم: <b dir="ltr">07722806645</b>
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="v" style="line-height:1.75;margin-top:6px">
           مبروك! لقد قمت بشراء <b>جهاز أصلي</b> وبـ <b>ضمان حقيقي لمدة سنة كاملة</b> ✅
           <br/>من <b>شركة الضمان للأجهزة الكهربائية</b> — مميزات حقيقية وخدمة متابعة.
         </div>
@@ -334,7 +474,7 @@
         </div>
       </div>
 
-      <div class="help" style="margin-top:12px">هاتف المساعدة: <b>9647722806645</b></div>
+      <div class="help" style="margin-top:12px">هاتف المساعدة: <b>07722806645</b></div>
     </div>
   </div>
 
@@ -343,7 +483,7 @@
 
   <script>
     const firebaseConfig = {"apiKey": "AIzaSyBMZbRFRU5-GyAmEwLHDspnY6PkEcaz6Ak", "authDomain": "albaman-f8a20.firebaseapp.com", "projectId": "albaman-f8a20", "storageBucket": "albaman-f8a20.firebasestorage.app", "messagingSenderId": "770267943286", "appId": "1:770267943286:web:e3da1c43d65740d7b52a57", "measurementId": "G-CB2PYMZSZT"};
-    const HELP_PHONE = "9647722806645";
+    const HELP_PHONE = "07722806645";
     const WARRANTY_DAYS = 365;
 
     const $ = (id)=>document.getElementById(id);
