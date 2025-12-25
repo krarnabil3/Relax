@@ -7,25 +7,28 @@
   <meta name="theme-color" content="#061724" />
   <style>
 
+    
     :root{
-      --bg0:#05070B;
-      --bg1:#070A11;
-      --bg2:#0A1220;
-      --glass: rgba(255,255,255,.07);
-      --glass2: rgba(255,255,255,.045);
-      --stroke: rgba(255,255,255,.12);
-      --stroke2: rgba(255,255,255,.10);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
-      --muted2: rgba(255,255,255,.52);
+      --bg0:#ffffff;
+      --bg1:#f7f8fb;
+      --bg2:#eef1f7;
+
+      --glass: rgba(255,255,255,.75);
+      --glass2: rgba(255,255,255,.55);
+      --stroke: rgba(0,0,0,.10);
+      --stroke2: rgba(0,0,0,.08);
+
+      --text: rgba(0,0,0,.88);
+      --muted: rgba(0,0,0,.55);
+      --muted2: rgba(0,0,0,.42);
 
       --blue:#0A84FF;
       --mint:#32D74B;
       --gold:#FFD60A;
       --red:#FF453A;
 
-      --shadow: 0 24px 70px rgba(0,0,0,.55);
-      --shadow2: 0 16px 44px rgba(0,0,0,.38);
+      --shadow: 0 24px 60px rgba(0,0,0,.12);
+      --shadow2: 0 14px 36px rgba(0,0,0,.14);
       --blur: 22px;
 
       --rXL: 30px;
@@ -34,7 +37,15 @@
       --rS: 14px;
     }
 
-    *{box-sizing:border-box}
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");
+      opacity:.35;
+      pointer-events:none;
+      mix-blend-mode: multiply;
+    }
+*{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
