@@ -1,78 +1,734 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>تفعيل الضمان – OCR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-<style>
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
-  background:linear-gradient(180deg,#0e3a4d,#081f2b);
-  color:#fff;margin:0;padding:20px}
-.card{background:rgba(255,255,255,.08);border-radius:20px;
-backdrop-filter:blur(18px);padding:20px;margin-bottom:16px}
-input,button{width:100%;padding:14px;border-radius:14px;border:none;
-margin-top:10px;font-size:15px}
-input{background:rgba(255,255,255,.15);color:#fff}
-button{background:#0a84ff;color:#fff;font-weight:600}
-h1{text-align:center}
-label{font-size:13px;opacity:.8}
-small{opacity:.7}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>شركة الضمان للأجهزة الكهربائية</title>
+  <meta name="theme-color" content="#061724" />
+  <style>
+    :root {
+      --bg1:#04101A;
+      --bg2:#071C2A;
+      --glass: rgba(255,255,255,.09);
+      --glass2: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.14);
+      --stroke2: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.66);
+      --muted2: rgba(255,255,255,.52);
+      --blue:#0A84FF;
+      --green:#32D74B;
+      --red:#FF453A;
+      --yellow:#FFD60A;
+      --shadow: 0 18px 60px rgba(0,0,0,.46);
+      --blur: 20px;
+      --rXL: 28px;
+      --rL: 22px;
+      --rM: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Display","SF Pro Text","Segoe UI", Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 18% 0%, rgba(10,132,255,.26), transparent 58%),
+        radial-gradient(900px 650px at 110% 10%, rgba(50,215,75,.16), transparent 60%),
+        linear-gradient(180deg, var(--bg2), var(--bg1));
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x:hidden;
+    }
+    body:before{
+      content:""; position:fixed; inset:0; pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay; opacity:.28;
+    }
+    .wrap{max-width:920px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 14px 70px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 10px 0}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .logo{width:46px;height:46px;border-radius:16px;flex:none;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(10,132,255,.95), rgba(10,132,255,.20)),
+        radial-gradient(circle at 80% 80%, rgba(50,215,75,.60), rgba(50,215,75,.06));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 18px 40px rgba(0,0,0,.30);
+    }
+    .title{min-width:0}
+    .title h1{margin:0;font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .title .sub{margin-top:4px;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .pillbtn{
+      border:none;color:var(--text);cursor:pointer;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.16);
+      padding:10px 14px;border-radius:999px;
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      box-shadow: 0 10px 26px rgba(0,0,0,.18);
+    }
+    .pillbtn:active{transform:scale(.99)}
+    .card{
+      background:var(--glass);
+      border:1px solid var(--stroke);
+      border-radius:var(--rXL);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+    }
+    .hero{margin:12px 10px 14px;padding:18px}
+    .hero h2{margin:0;font-size:22px}
+    .hero p{margin:8px 0 0;line-height:1.6;color:var(--muted)}
+    .seg{
+      margin-top:14px;display:flex;gap:6px;padding:6px;
+      background:rgba(0,0,0,.16);
+      border:1px solid var(--stroke2);
+      border-radius:18px;
+    }
+    .seg button{
+      flex:1;border:none;cursor:pointer;
+      padding:12px;border-radius:14px;font-size:15px;
+      color:var(--muted);background:transparent;transition:.18s ease;
+    }
+    .seg button.active{
+      color:var(--text);
+      background:rgba(255,255,255,.13);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+    }
+    .status{
+      margin-top:12px;display:flex;align-items:center;gap:10px;
+      padding:12px 14px;border-radius:18px;
+      background:rgba(0,0,0,.18);
+      border:1px solid var(--stroke2);
+    }
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--yellow);box-shadow:0 0 0 4px rgba(255,214,10,.14)}
+    .dot.ok{background:var(--green);box-shadow:0 0 0 4px rgba(50,215,75,.14)}
+    .dot.bad{background:var(--red);box-shadow:0 0 0 4px rgba(255,69,58,.14)}
+    .footer{margin-top:12px;font-size:12px;color:rgba(255,255,255,.58);line-height:1.6}
+    .section{margin:12px 10px;padding:16px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:760px){.grid{grid-template-columns:1fr}}
+    label{display:block;margin:2px 10px 8px;font-size:13px;color:var(--muted)}
+    input,select,textarea{
+      width:100%;border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.18);
+      color:var(--text);
+      padding:14px;font-size:16px;outline:none;
+    }
+    input:focus,select:focus,textarea:focus{border-color:rgba(10,132,255,.55);background:rgba(0,0,0,.22)}
+    textarea{min-height:90px;resize:none}
+    input::placeholder,textarea::placeholder{color:rgba(255,255,255,.38)}
+
+    .preview{
+      width:100%;
+      max-height:260px;
+      object-fit:contain;
+      border-radius:16px;
+      margin-top:10px;
+      border:1px solid var(--stroke2);
+      background:rgba(0,0,0,.18);
+    }
+    .help{margin-top:6px;font-size:12px;color:var(--muted2);padding:0 10px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .btn{
+      flex:1;min-width:170px;cursor:pointer;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.10);
+      color:var(--text);
+      border-radius:18px;padding:14px;font-size:16px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+      transition:transform .08s ease, background .15s ease;
+    }
+    .btn.primary{
+      background:linear-gradient(180deg, rgba(10,132,255,.95), rgba(10,132,255,.72));
+      box-shadow:0 14px 35px rgba(10,132,255,.20);
+    }
+    .btn:active{transform:scale(.99)}
+    .result{margin-top:14px;padding:14px;border-radius:var(--rL);background:var(--glass2);border:1px solid rgba(255,255,255,.14)}
+    .kv{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:760px){.kv{grid-template-columns:1fr}}
+    .k{font-size:12px;color:var(--muted2);padding:0 4px}
+    .v{font-size:16px;margin-top:4px;padding:0 4px}
+    .countdown{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .tile{flex:1;min-width:92px;background:rgba(0,0,0,.18);border:1px solid var(--stroke2);border-radius:18px;padding:12px;text-align:center}
+    .tile .n{font-size:22px;font-weight:750}
+    .tile .t{margin-top:6px;font-size:12px;color:var(--muted2)}
+    .badge{margin-top:12px;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:18px;background:rgba(0,0,0,.18);border:1px solid var(--stroke2)}
+    .hidden{display:none !important}
+
+    .sheetBackdrop{
+      position:fixed; inset:0; z-index:9999;
+      background:rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display:none; align-items:flex-end; justify-content:center; padding:18px;
+    }
+    .sheet{
+      width:min(560px,100%); border-radius:28px;
+      background:rgba(255,255,255,.11);
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 28px 80px rgba(0,0,0,.55);
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      overflow:hidden;
+    }
+    .sheetHead{padding:16px 18px 10px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .sheetHead h3{margin:0;font-size:16px}
+    .sheetHead .x{border:none;width:40px;height:40px;border-radius:999px;background:rgba(0,0,0,.20);border:1px solid rgba(255,255,255,.16);color:var(--text);cursor:pointer}
+    .sheetBody{padding:0 18px 18px}
+    .pinRow{display:flex;gap:10px;align-items:center;margin-top:10px}
+    .pin{flex:1;text-align:center;letter-spacing:.35em;font-weight:750;font-size:18px}
+    .lockTag{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.14);color:var(--muted);font-size:12px;margin-top:10px}
+    .hint{margin-top:10px;color:var(--muted2);font-size:12px;line-height:1.6}
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo"></div>
+        <div class="title">
+          <h1>شركة الضمان للأجهزة الكهربائية</h1>
+          <div class="sub">تفعيل الضمان • بحث عن فترة الضمان</div>
+        </div>
+      </div>
+      <button class="pillbtn" id="resetBtn">إعادة</button>
+    </div>
 
-<h1>تفعيل الضمان الذكي</h1>
+    <div class="card hero">
+      <h2 id="pageTitle">بحث عن فترة الضمان</h2>
+      <p id="pageDesc">اكتب الاسم الثلاثي ورقم الهاتف لعرض تاريخ انتهاء الضمان.</p>
 
-<div class="card">
-<label>رفع صورة الفاتورة</label>
-<input type="file" id="img" accept="image/*">
-<button onclick="readImage()">قراءة البيانات من الصورة</button>
-<small id="status"></small>
-</div>
+      <div class="result" id="welcomeBanner">
+        <div class="k">🎉 رسالة ترحيبية</div>
+        <div class="v" style="line-height:1.7;margin-top:6px">
+          مبروك! لقد قمت بشراء <b>جهاز أصلي</b> من <b>شركة الضمان للأجهزة الكهربائية</b> ✅
+          <br/>ضمان <b>سنة كاملة</b> مع متابعة وخدمة مساعدة.
+        </div>
+        <div class="footer" style="margin-top:10px">
+          <b>مميزات الشاشات:</b>
+          <ul style="margin:10px 18px 0 0; padding:0 18px 0 0; color:rgba(255,255,255,.70); line-height:1.7">
+            <li>ألوان واضحة وتباين عالي لتجربة مشاهدة راقية.</li>
+            <li>جودة صورة ممتازة حسب السلسلة (OLED / UHD / QNED).</li>
+            <li>تصميم أنيق ومتين مع أداء ثابت.</li>
+            <li>دعم فني وتفعيل ضمان موثّق داخل النظام.</li>
+          </ul>
+        </div>
+      </div>
 
-<div class="card">
-<label>الاسم الثلاثي</label>
-<input id="name">
-<label>رقم الهاتف</label>
-<input id="phone">
-<label>العنوان</label>
-<input id="address">
-<label>موديل الشاشة</label>
-<input id="model">
-<label>السلسلة</label>
-<input id="series">
-<label>المجموع الكلي مع النقل</label>
-<input id="total">
-</div>
+      <div class="seg" role="tablist">
+        <button id="goSearch" class="active" role="tab" aria-selected="true">بحث عن فترة الضمان</button>
+        <button id="goActivate" role="tab" aria-selected="false">تفعيل الضمان 🔒</button>
+      </div>
 
-<script>
-function readImage(){
- const file=document.getElementById("img").files[0];
- if(!file){alert("اختر صورة");return}
- document.getElementById("status").innerText="جاري قراءة الصورة...";
- Tesseract.recognize(file,'ara+eng').then(({data:{text}})=>{
-   document.getElementById("status").innerText="تم استخراج البيانات";
-   // استخراج الاسم
-   const nameMatch=text.match(/كرار\s+نبيل\s+اكرم/);
-   if(nameMatch)document.getElementById("name").value=nameMatch[0];
-   // الهاتف
-   const phone=text.match(/077\d{8}/);
-   if(phone)document.getElementById("phone").value=phone[0];
-   // الموديل
-   const model=text.match(/LG\s*UHD\s*\d+/i);
-   if(model){
-     document.getElementById("model").value=model[0];
-     document.getElementById("series").value="LGUHD";
-   }
-   // المجموع
-   const total=text.match(/180,?000/);
-   if(total)document.getElementById("total").value="180000";
-   console.log(text);
- });
-}
-</script>
+      <div class="status">
+        <span class="dot" id="statusDot"></span>
+        <span id="cloudStatus" style="color:var(--muted)">... جاري الاتصال بقاعدة البيانات</span>
+      </div>
 
+      <div class="footer" id="debugBox" style="display:none;white-space:pre-wrap;direction:ltr;text-align:left"></div>
+    </div>
+
+    <div class="card section" id="searchCard">
+      <div class="grid">
+        <div>
+          <label>الاسم الثلاثي</label>
+          <input id="searchName" placeholder="أدخل الاسم الثلاثي" />
+        </div>
+        <div>
+          <label>رقم الهاتف</label>
+          <input id="searchPhone" placeholder="أدخل رقم الهاتف" inputmode="tel" />
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn primary" id="searchBtn">بحث</button>
+        <button class="btn" id="searchClearBtn">مسح</button>
+      </div>
+
+      <div class="footer" id="searchNote"></div>
+
+      <div class="result hidden" id="searchResult">
+        <div class="kv">
+          <div><div class="k">الاسم</div><div class="v" id="rName">-</div></div>
+          <div><div class="k">الهاتف</div><div class="v" id="rPhone">-</div></div>
+          <div><div class="k">الموديل</div><div class="v" id="rModel">-</div></div>
+          <div><div class="k">السلسلة</div><div class="v" id="rSeries">-</div></div>
+          <div style="grid-column:1/-1"><div class="k">العنوان</div><div class="v" id="rAddress">-</div></div>
+          <div><div class="k">كود المنتج</div><div class="v" id="rCode">-</div></div>
+          <div><div class="k">بداية الضمان</div><div class="v" id="rStart">-</div></div>
+
+          <div style="grid-column:1/-1"><div class="k">انتهاء الضمان</div><div class="v" id="rEnd">-</div></div>
+        </div>
+
+        <div style="grid-column:1/-1; margin-top:12px">
+          <div class="k">صورة الفاتورة</div>
+          <img id="rInvoiceImg" class="preview hidden" alt="صورة الفاتورة" />
+          <div class="help" id="rInvoiceHint">—</div>
+        </div>
+        <div class="badge">
+          <span class="dot" id="searchDot"></span>
+          <span id="searchStatusText">-</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card section hidden" id="activateCard">
+      <div class="grid">
+        <div>
+          <label>الاسم الثلاثي</label>
+          <input id="fullName" placeholder="مثال: أحمد علي حسن" autocomplete="name" />
+        </div>
+        <div>
+          <label>رقم الهاتف</label>
+          <input id="phone" placeholder="مثال: 9647XXXXXXXXX" inputmode="tel" autocomplete="tel" />
+          <div class="help">يفضل إدخال الرقم بصيغة دولية.</div>
+        </div>
+
+        <div>
+          <label>موديل الجهاز</label>
+          <input id="model" placeholder="مثال: 55UHD-2025" />
+        </div>
+        <div>
+          <label>سلسلة الشاشة</label>
+          <select id="series">
+            <option value="LGOLED">LGOLED</option>
+            <option value="LGUHD" selected>LGUHD</option>
+            <option value="LGQNED">LGQNED</option>
+            <option value="ILG">ILG</option>
+            <option value="PROLG">PROLG</option>
+            <option value="GENERAL">GENERAL</option>
+            <option value="LGPRO">LGPRO</option>
+            <option value="LGDAIMOND">LGDAIMOND</option>
+          </select>
+        </div>
+
+        <div style="grid-column:1/-1">
+          <label>العنوان الكامل</label>
+          <textarea id="address" placeholder="المحافظة - المدينة - المنطقة - أقرب نقطة دالة"></textarea>
+        </div>
+
+        <div>
+          <label>كود المنتج (اختياري)</label>
+          <input id="code" placeholder="مثال: DG-25A7K9" />
+        </div>
+
+        <div style="grid-column:1/-1">
+          <label>صورة الفاتورة (اختياري)</label>
+          <input id="invoiceImage" type="file" accept="image/*" />
+          <div class="help">يمكنك رفع صورة الفاتورة ليتم حفظها مع بيانات الضمان.</div>
+          <img id="invoicePreview" class="preview hidden" alt="معاينة الفاتورة" />
+        </div>
+        <div>
+          <label>هاتف المساعدة</label>
+          <button class="btn" id="callHelp" type="button">اتصال: 9647722806645</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn primary" id="activateBtn">تفعيل الضمان</button>
+        <button class="btn" id="copyBtn">نسخ معلومات الضمان</button>
+      </div>
+
+      <div class="result hidden" id="resultBox">
+        <div class="kv">
+          <div><div class="k">بداية الضمان</div><div class="v" id="startDate">-</div></div>
+          <div><div class="k">انتهاء الضمان</div><div class="v" id="endDate">-</div></div>
+        </div>
+
+        <div class="countdown">
+          <div class="tile"><div class="n" id="d">-</div><div class="t">يوم</div></div>
+          <div class="tile"><div class="n" id="h">-</div><div class="t">ساعة</div></div>
+          <div class="tile"><div class="n" id="m">-</div><div class="t">دقيقة</div></div>
+          <div class="tile"><div class="n" id="s">-</div><div class="t">ثانية</div></div>
+        </div>
+
+        <div class="badge">
+          <span class="dot ok" id="wDot"></span>
+          <span id="wText">🟢 الجهاز داخل الضمان</span>
+        </div>
+      </div>
+
+      <div class="footer">ضمان سنة كاملة (365 يوم) • التخزين على Firestore</div>
+    </div>
+
+    <div class="sheetBackdrop" id="sheetBackdrop" role="dialog" aria-modal="true">
+      <div class="sheet">
+        <div class="sheetHead">
+          <h3>رمز الدخول لصفحة تفعيل الضمان</h3>
+          <button class="x" id="closeSheet" aria-label="إغلاق">✕</button>
+        </div>
+        <div class="sheetBody">
+          <div class="lockTag">🔒 صفحة تفعيل الضمان مقفلة برمز</div>
+          <div class="pinRow">
+            <input id="pinInput" class="pin" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="••••••" maxlength="6" />
+            <button class="btn primary" id="pinBtn" type="button" style="min-width:140px;flex:0 0 auto;">دخول</button>
+          </div>
+          <div class="hint">الرمز مكوّن من 6 أرقام. بعد إدخاله بشكل صحيح سيتفتح تبويب “تفعيل الضمان”.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {"apiKey": "AIzaSyBMZbRFRU5-GyAmEwLHDspnY6PkEcaz6Ak", "authDomain": "albaman-f8a20.firebaseapp.com", "projectId": "albaman-f8a20", "storageBucket": "albaman-f8a20.firebasestorage.app", "messagingSenderId": "770267943286", "appId": "1:770267943286:web:e3da1c43d65740d7b52a57", "measurementId": "G-CB2PYMZSZT"};
+    const HELP_PHONE = "9647722806645";
+    const WARRANTY_DAYS = 365;
+
+    const PASSCODE = "878705";
+    const UNLOCK_KEY = "dhaman_activate_unlocked";
+
+    const $ = (id)=>document.getElementById(id);
+
+    // --- Image helper: resize + compress then return dataURL (JPEG) ---
+    async function fileToDataURLResized(file, maxW=1280, quality=0.78){
+      if(!file) return null;
+      const img = await new Promise((res, rej)=>{
+        const i = new Image();
+        i.onload=()=>res(i);
+        i.onerror=rej;
+        i.src = URL.createObjectURL(file);
+      });
+      const ratio = Math.min(1, maxW / img.width);
+      const w = Math.round(img.width * ratio);
+      const h = Math.round(img.height * ratio);
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, w, h);
+      try{ URL.revokeObjectURL(img.src); }catch(_){}
+      return canvas.toDataURL("image/jpeg", quality);
+    }
+
+
+    function showDebug(msg){
+      const el = $("debugBox");
+      if(!msg){ el.style.display="none"; el.textContent=""; return; }
+      el.style.display="block";
+      el.textContent = String(msg);
+    }
+    function setConn(state, msg){
+      const dot = $("statusDot");
+      dot.className = "dot" + (state==="ok" ? " ok" : state==="bad" ? " bad" : "");
+      $("cloudStatus").textContent = msg;
+    }
+
+    function normalizeDigits(str){
+      return (str||"")
+        .replace(/[٠-٩]/g, d => String("٠١٢٣٤٥٦٧٨٩".indexOf(d)))
+        .replace(/[۰-۹]/g, d => String("۰۱۲۳۴۵۶۷۸۹".indexOf(d)));
+    }
+    function sanitizePhone(p){ return normalizeDigits((p||"").trim().replace(/\s+/g,"")); }
+    function normalizeName(n){ return (n||"").trim().replace(/\s+/g," "); }
+
+    function fmt(d){
+      const y=d.getFullYear();
+      const m=String(d.getMonth()+1).padStart(2,"0");
+      const da=String(d.getDate()).padStart(2,"0");
+      const hh=String(d.getHours()).padStart(2,"0");
+      const mm=String(d.getMinutes()).padStart(2,"0");
+      return `${y}-${m}-${da} ${hh}:${mm}`;
+    }
+
+    function isUnlocked(){
+      try { return localStorage.getItem(UNLOCK_KEY) === "1"; } catch(_){ return false; }
+    }
+    function setUnlocked(v){
+      try { localStorage.setItem(UNLOCK_KEY, v ? "1" : "0"); } catch(_){}
+    }
+    function refreshTabLock(){
+      $("goActivate").textContent = isUnlocked() ? "تفعيل الضمان" : "تفعيل الضمان 🔒";
+    }
+
+    function showSearch(){
+      $("searchCard").classList.remove("hidden");
+      $("activateCard").classList.add("hidden");
+      $("goSearch").classList.add("active");
+      $("goActivate").classList.remove("active");
+      $("goSearch").setAttribute("aria-selected","true");
+      $("goActivate").setAttribute("aria-selected","false");
+      $("pageTitle").textContent="بحث عن فترة الضمان";
+      $("pageDesc").textContent="اكتب الاسم الثلاثي ورقم الهاتف لعرض تاريخ انتهاء الضمان.";
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+    function showActivate(){
+      if(!isUnlocked()){ showSearch(); return; }
+      $("activateCard").classList.remove("hidden");
+      $("searchCard").classList.add("hidden");
+      $("goActivate").classList.add("active");
+      $("goSearch").classList.remove("active");
+      $("goActivate").setAttribute("aria-selected","true");
+      $("goSearch").setAttribute("aria-selected","false");
+      $("pageTitle").textContent="تفعيل الضمان";
+      $("pageDesc").textContent="املأ البيانات ثم اضغط “تفعيل الضمان” ليبدأ العد التنازلي لمدة سنة كاملة.";
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    function openSheet(){
+      $("sheetBackdrop").style.display="flex";
+      $("pinInput").value="";
+      setTimeout(()=> $("pinInput").focus(), 80);
+    }
+    function closeSheet(){ $("sheetBackdrop").style.display="none"; }
+
+    function tryUnlock(){
+      const pin = normalizeDigits(($("pinInput").value||"").trim());
+      if(pin === PASSCODE){
+        setUnlocked(true);
+        refreshTabLock();
+        closeSheet();
+        showActivate();
+      } else {
+        alert("الرمز غير صحيح ❌");
+        $("pinInput").focus();
+      }
+    }
+
+    $("goSearch").onclick = showSearch;
+    $("goActivate").onclick = ()=>{ if(!isUnlocked()) return openSheet(); showActivate(); };
+
+    $("closeSheet").onclick = closeSheet;
+    $("pinBtn").onclick = tryUnlock;
+    $("pinInput").addEventListener("keydown", (e)=>{ if(e.key==="Enter") tryUnlock(); });
+    $("sheetBackdrop").addEventListener("click", (e)=>{ if(e.target === $("sheetBackdrop")) closeSheet(); });
+
+    $("resetBtn").onclick = ()=>{
+      ["fullName","phone","model","address","code","searchName","searchPhone"].forEach(id=>{ const el=$(id); if(el) el.value=""; });
+      $("resultBox").classList.add("hidden");
+      $("searchResult").classList.add("hidden");
+      $("searchNote").textContent="";
+      showSearch();
+      refreshTabLock();
+    };
+
+    let pressTimer=null;
+    $("resetBtn").addEventListener("touchstart", ()=>{ pressTimer=setTimeout(()=>{ setUnlocked(false); refreshTabLock(); alert("تم قفل صفحة تفعيل الضمان 🔒"); showSearch(); }, 1000); }, {passive:true});
+    $("resetBtn").addEventListener("touchend", ()=>{ if(pressTimer) clearTimeout(pressTimer); pressTimer=null; });
+
+    $("searchClearBtn").onclick = ()=>{
+      $("searchName").value=""; $("searchPhone").value="";
+      $("searchResult").classList.add("hidden");
+      $("searchNote").textContent="";
+    };
+
+    
+    // معاينة صورة الفاتورة
+    $("invoiceImage").addEventListener("change", async ()=>{
+      const f = $("invoiceImage").files?.[0];
+      if(!f){
+        $("invoicePreview").classList.add("hidden");
+        $("invoicePreview").src = "";
+        return;
+      }
+      const url = await fileToDataURLResized(f, 900, 0.82);
+      $("invoicePreview").src = url;
+      $("invoicePreview").classList.remove("hidden");
+    });
+
+    $("callHelp").onclick = ()=> location.href = "tel:" + HELP_PHONE;
+
+    let timer=null;
+    function setWarrantyStatus(active){
+      $("wDot").className = active ? "dot ok" : "dot bad";
+      $("wText").textContent = active ? "🟢 الجهاز داخل الضمان" : "🔴 الضمان غير نافذ";
+    }
+    function startCountdown(endDate){
+      if(timer) clearInterval(timer);
+      const tick=()=>{
+        const now=new Date();
+        const diff=endDate - now;
+        if(diff<=0){
+          $("d").textContent="0"; $("h").textContent="0"; $("m").textContent="0"; $("s").textContent="0";
+          setWarrantyStatus(false);
+          clearInterval(timer); timer=null;
+          return;
+        }
+        const total=Math.floor(diff/1000);
+        const days=Math.floor(total/(24*3600));
+        const hours=Math.floor((total%(24*3600))/3600);
+        const mins=Math.floor((total%3600)/60);
+        const secs=total%60;
+        $("d").textContent=String(days);
+        $("h").textContent=String(hours).padStart(2,"0");
+        $("m").textContent=String(mins).padStart(2,"0");
+        $("s").textContent=String(secs).padStart(2,"0");
+        setWarrantyStatus(true);
+      };
+      tick();
+      timer=setInterval(tick,1000);
+    }
+
+    async function docIdFor(name, phone){
+      const raw = (normalizeName(name).toLowerCase() + "|" + sanitizePhone(phone));
+      const enc = new TextEncoder().encode(raw);
+      const hash = await crypto.subtle.digest("SHA-256", enc);
+      const bytes = Array.from(new Uint8Array(hash));
+      return bytes.map(b=>b.toString(16).padStart(2,"0")).join("");
+    }
+
+    let db = null;
+    try{
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+    }catch(e){
+      setConn("bad","❌ خطأ بتهيئة Firebase");
+      showDebug(e?.message || e);
+    }
+
+    async function ping(){
+      if(!db) return;
+      try{
+        await db.collection("_health").doc("ping").get();
+        setConn("ok","✅ متصل بقاعدة البيانات (Firestore)");
+        showDebug("");
+      }catch(e){
+        setConn("bad","❌ فشل الاتصال بقاعدة البيانات");
+        showDebug((e?.code ? e.code : "error") + ": " + (e?.message ? e.message : e));
+      }
+    }
+
+    setConn("warn","... جاري الاتصال بقاعدة البيانات");
+    refreshTabLock();
+    showSearch();
+    ping();
+
+    $("activateBtn").onclick = async ()=>{
+      const fullName = normalizeName($("fullName").value);
+      const phone = sanitizePhone($("phone").value);
+      const model = ($("model").value||"").trim();
+      const address = ($("address").value||"").trim();
+      const series = ($("series").value||"").trim();
+      const code = ($("code").value||"").trim() || null;
+
+      // صورة الفاتورة (اختياري)
+      let invoiceImage = null;
+      try{
+        const f = $("invoiceImage").files?.[0];
+        if(f){
+          invoiceImage = await fileToDataURLResized(f, 1280, 0.78);
+          // حماية من تضخم الحجم (حد تقريبي ~ 800KB)
+          if(invoiceImage && invoiceImage.length > 900000){
+            invoiceImage = await fileToDataURLResized(f, 1024, 0.72);
+          }
+        }
+      }catch(_){}
+
+      if(fullName.split(" ").length < 3) return alert("رجاءً اكتب الاسم الثلاثي (3 كلمات على الأقل).");
+      if(phone.length < 10) return alert("رجاءً اكتب رقم هاتف صحيح.");
+      if(!model) return alert("رجاءً اكتب موديل الجهاز.");
+      if(!address) return alert("رجاءً اكتب العنوان الكامل.");
+      if(!db) return alert("قاعدة البيانات غير جاهزة. تأكد من Firestore.");
+
+      try{
+        const id = await docIdFor(fullName, phone);
+        const ref = db.collection("warranties").doc(id);
+
+        const start = new Date();
+        const end = new Date(start);
+        end.setDate(end.getDate() + WARRANTY_DAYS);
+
+        await db.runTransaction(async (tx)=>{
+          const snap = await tx.get(ref);
+          if(snap.exists){
+            throw new Error("عذراً، هذا المستخدم موجود بالفعل وتم تفعيل الضمان مسبقاً.");
+          }
+          tx.set(ref, {
+            fullName, phone, model, address, series, code,
+            startISO: start.toISOString(),
+            endISO: end.toISOString(),
+            invoiceImage, // dataURL (JPEG) optional
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+        });
+
+        $("resultBox").classList.remove("hidden");
+        $("startDate").textContent = fmt(start);
+        $("endDate").textContent = fmt(end);
+        startCountdown(end);
+
+        $("searchName").value = fullName;
+        $("searchPhone").value = phone;
+
+        $("resultBox").scrollIntoView({behavior:"smooth", block:"start"});
+      }catch(e){
+        alert(e?.message || e);
+      }
+    };
+
+    $("searchBtn").onclick = async ()=>{
+      const name = normalizeName($("searchName").value);
+      const phone = sanitizePhone($("searchPhone").value);
+
+      if(name.split(" ").length < 3) return alert("رجاءً اكتب الاسم الثلاثي.");
+      if(phone.length < 10) return alert("رجاءً اكتب رقم الهاتف.");
+      if(!db) return alert("قاعدة البيانات غير جاهزة. تأكد من Firestore.");
+
+      try{
+        const id = await docIdFor(name, phone);
+        const snap = await db.collection("warranties").doc(id).get();
+
+        if(!snap.exists){
+          $("searchResult").classList.add("hidden");
+          $("searchNote").textContent = "❌ لم يتم العثور على بيانات لهذا الاسم/الرقم.";
+          return;
+        }
+        const d = snap.data() || {};
+        $("rName").textContent = d.fullName || "-";
+        $("rPhone").textContent = d.phone || "-";
+        $("rModel").textContent = d.model || "-";
+        $("rSeries").textContent = d.series || "-";
+
+        $("rAddress").textContent = d.address || "-";
+        $("rCode").textContent = d.code || "—";
+        const start = d.startISO ? new Date(d.startISO) : null;
+        $("rStart").textContent = start ? fmt(start) : "—";
+
+        // صورة الفاتورة (إن وجدت)
+        if(d.invoiceImage){
+          $("rInvoiceImg").src = d.invoiceImage;
+          $("rInvoiceImg").classList.remove("hidden");
+          $("rInvoiceHint").textContent = "✅ محفوظة ضمن بيانات الضمان";
+        }else{
+          $("rInvoiceImg").classList.add("hidden");
+          $("rInvoiceImg").src = "";
+          $("rInvoiceHint").textContent = "لا توجد صورة محفوظة.";
+        }
+
+        const end = new Date(d.endISO);
+        $("rEnd").textContent = fmt(end);
+
+        const active = new Date() <= end;
+        $("searchDot").className = active ? "dot ok" : "dot bad";
+        $("searchStatusText").textContent = active ? "🟢 الجهاز داخل الضمان" : "🔴 الضمان غير نافذ";
+
+        $("searchNote").textContent = "";
+        $("searchResult").classList.remove("hidden");
+        $("searchResult").scrollIntoView({behavior:"smooth", block:"start"});
+      }catch(e){
+        $("searchResult").classList.add("hidden");
+        $("searchNote").textContent = "حدث خطأ: " + (e?.message || e);
+      }
+    };
+
+    $("copyBtn").onclick = async ()=>{
+      const text =
+        "شركة الضمان للأجهزة الكهربائية\n" +
+        "الاسم: " + ($("fullName").value||"") + "\n" +
+        "الهاتف: " + ($("phone").value||"") + "\n" +
+        "الموديل: " + ($("model").value||"") + "\n" +
+        "السلسلة: " + ($("series").value||"") + "\n" +
+        "بداية الضمان: " + ($("startDate").textContent||"") + "\n" +
+        "انتهاء الضمان: " + ($("endDate").textContent||"");
+      try{
+        await navigator.clipboard.writeText(text);
+        alert("تم النسخ ✓");
+      }catch(_){
+        alert(text);
+      }
+    };
+  </script>
 </body>
 </html>
