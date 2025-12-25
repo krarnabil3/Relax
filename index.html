@@ -419,6 +419,28 @@
     <div class="card hero">
       <h2 id="pageTitle">تفعيل الضمان</h2>
       <p id="pageDesc">املأ البيانات ثم اضغط “تفعيل الضمان” ليبدأ العد التنازلي لمدة سنة كاملة.</p>
+      <div class="result" id="welcomeBanner" style="margin-top:14px;border-style:solid;border-color:rgba(255,255,255,.16)">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+          <div>
+            <div class="k" style="font-size:12px;color:rgba(255,255,255,.70)">🎉 رسالة ترحيبية</div>
+            <div class="v" style="font-size:16px;line-height:1.7;margin-top:6px">
+              مبروك! لقد قمت بشراء <b>جهاز أصلي</b> من <b>شركة الضمان للأجهزة الكهربائية</b> ✅
+              <br/>ضمان <b>سنة كاملة</b> مع متابعة وخدمة مساعدة.
+            </div>
+          </div>
+          <button class="pillbtn" id="closeWelcome" style="padding:8px 12px;box-shadow:none">إخفاء</button>
+        </div>
+        <div class="footer" style="margin-top:10px">
+          <b>مميزات الشاشات:</b>
+          <ul style="margin:10px 18px 0 0; padding:0 18px 0 0; color:rgba(255,255,255,.70); line-height:1.7">
+            <li>ألوان واضحة وتباين عالي لتجربة مشاهدة راقية.</li>
+            <li>جودة صورة ممتازة حسب السلسلة (OLED / UHD / QNED).</li>
+            <li>تصميم أنيق ومتين مع أداء ثابت.</li>
+            <li>دعم فني وتفعيل ضمان موثّق داخل النظام.</li>
+          </ul>
+        </div>
+      </div>
+
 
       <div class="seg" role="tablist" aria-label="التبديل بين الصفحات">
         <button id="goActivate" class="active" role="tab" aria-selected="true">تفعيل الضمان</button>
@@ -563,7 +585,7 @@
       <div class="sheetBody">
         <div class="lockTag">🔒 صفحة تفعيل الضمان مقفلة برمز</div>
         <div class="pinRow">
-          <input id="pinInput" class="pin" inputmode="numeric" autocomplete="one-time-code" placeholder="••••••" maxlength="6" />
+          <input id="pinInput" class="pin" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="••••••" maxlength="6" />
           <button class="btn primary" id="pinBtn" type="button" style="min-width:140px;flex:0 0 auto;">دخول</button>
         </div>
         <div class="hint">ملاحظة: الرمز مكوّن من 6 أرقام. بعد إدخاله بشكل صحيح سيتفتح تبويب “تفعيل الضمان”.</div>
@@ -593,6 +615,25 @@
       localStorage.setItem(UNLOCK_KEY, v ? "1" : "0");
     }
 
+
+    const WELCOME_KEY = "dhaman_welcome_hide";
+
+    function showWelcomeIfNeeded(){
+      const hide = localStorage.getItem(WELCOME_KEY) === "1";
+      const el = $("welcomeBanner");
+      if(!el) return;
+      el.style.display = hide ? "none" : "block";
+    }
+
+    const closeWelcomeBtn = document.getElementById("closeWelcome");
+    if(closeWelcomeBtn){
+      closeWelcomeBtn.onclick = ()=>{
+        localStorage.setItem(WELCOME_KEY, "1");
+        showWelcomeIfNeeded();
+      };
+    }
+
+
     function openSheet(){
       $("sheetBackdrop").style.display = "flex";
       $("pinInput").value = "";
@@ -618,8 +659,16 @@
       cloudStatus.textContent = msg;
     }
 
-    function sanitizePhone(p){ return (p||"").trim().replace(/\s+/g,""); }
+    function sanitizePhone(p){ return normalizeDigits((p||"").trim().replace(/\s+/g,"")); }
     function normalizeName(n){ return (n||"").trim().replace(/\s+/g," "); }
+
+    function normalizeDigits(str){
+      // Convert Arabic-Indic (٠١٢٣٤٥٦٧٨٩) and Eastern Arabic-Indic (۰۱۲۳۴۵۶۷۸۹) to 0-9
+      return (str||"")
+        .replace(/[٠-٩]/g, d => String("٠١٢٣٤٥٦٧٨٩".indexOf(d)))
+        .replace(/[۰-۹]/g, d => String("۰۱۲۳۴۵۶۷۸۹".indexOf(d)));
+    }
+
 
     function fmt(d){
       const y=d.getFullYear();
@@ -638,7 +687,15 @@
 
 
     function showActivate(){
-      $("activateCard").classList.remove("hidden");
+
+      if(!isUnlocked()){ 
+        refreshTabLock();
+    showWelcomeIfNeeded();
+        showSearch();
+        return;
+      }
+
+$("activateCard").classList.remove("hidden");
       $("searchCard").classList.add("hidden");
       $("goActivate").classList.add("active");
       $("goSearch").classList.remove("active");
@@ -659,7 +716,7 @@
     }
     $("goActivate").onclick = ()=>{ if(!isUnlocked()) return openSheet(); showActivate(); };
     $("goSearch").onclick = showSearch;
-    $("backBtn").onclick = showActivate;
+    $("backBtn").onclick = ()=>{ $("searchResult").classList.add("hidden"); $("searchNote").textContent=""; window.scrollTo({top:0, behavior:"smooth"}); showSearch(); };
 
     $("resetBtn").onclick = ()=>{
 
@@ -736,6 +793,7 @@
     setConn("warn","... جاري الاتصال بقاعدة البيانات");
     ping();
     refreshTabLock();
+    showWelcomeIfNeeded();
 
     // Activate warranty (transaction to prevent duplicates)
     $("activateBtn").onclick = async ()=>{
