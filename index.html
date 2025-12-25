@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>شركة الضمان | تفعيل الضمان</title>
+  <title>شركة الضمان | تفعيل الضمان والتحقق</title>
   <style>
     :root{
       --bg1:#0b1220; --bg2:#0a2a3a;
@@ -48,7 +48,7 @@
       transform: rotate(12deg);
     }
     .brandtext{min-width:0}
-    .brandtext .title{font-size:16px;font-weight:900;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .brandtext .title{font-size:16px;font-weight:950;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .brandtext .subtitle{margin-top:2px;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
     .card{
@@ -61,8 +61,7 @@
       padding: 16px;
       margin-bottom: 14px;
     }
-
-    .hero h1{ margin:0 0 6px; font-size:18px; font-weight:950; letter-spacing:.2px; }
+    .hero h1{ margin:0 0 6px; font-size:18px; font-weight:980; letter-spacing:.2px; }
     .hero p{ margin:0; color:var(--muted); font-size:13.5px; line-height:1.5; }
 
     .seg{display:flex; gap:10px; margin-top: 14px;}
@@ -73,7 +72,7 @@
       color: var(--text);
       padding: 13px 12px;
       border-radius: 18px;
-      font-weight: 950;
+      font-weight: 980;
       font-size: 14px;
       letter-spacing: .2px;
       box-shadow: 0 10px 30px rgba(0,0,0,.18);
@@ -96,7 +95,6 @@
     .btn.full{ width:100%; flex:unset; }
 
     .grid{ display:grid; grid-template-columns: 1fr; gap:10px; margin-top: 12px; }
-
     .row{
       display:flex; justify-content:space-between; align-items:center; gap:12px;
       padding:12px 12px;
@@ -105,13 +103,13 @@
       background: rgba(255,255,255,.06);
     }
     .label{ color: var(--muted); font-size: 12.5px; }
-    .value{ font-size: 13.5px; font-weight: 950; text-align:left; direction:ltr; }
+    .value{ font-size: 13.5px; font-weight: 980; text-align:left; direction:ltr; }
 
     .badge{
       border-radius: 999px;
       padding: 10px 12px;
       font-size: 13px;
-      font-weight: 950;
+      font-weight: 980;
       letter-spacing: .2px;
       display:inline-flex;
       align-items:center;
@@ -136,11 +134,11 @@
       padding: 13px 12px;
       outline:none;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 880;
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
     }
-    input::placeholder, textarea::placeholder{ color: rgba(255,255,255,.45); font-weight: 700; }
+    input::placeholder, textarea::placeholder{ color: rgba(255,255,255,.45); font-weight: 780; }
     textarea{ min-height: 84px; resize:none; line-height:1.4; }
     .two{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
     .hint{ margin-top:8px; color: rgba(255,255,255,.62); font-size: 12.5px; line-height: 1.4; }
@@ -160,8 +158,8 @@
       padding: 12px 10px;
       text-align:center;
     }
-    .tick .n{ font-size: 18px; font-weight: 980; direction:ltr; }
-    .tick .t{ margin-top:4px; font-size: 12px; color: var(--muted); font-weight: 900; }
+    .tick .n{ font-size: 18px; font-weight: 990; direction:ltr; }
+    .tick .t{ margin-top:4px; font-size: 12px; color: var(--muted); font-weight: 920; }
 
     .footer{
       text-align:center;
@@ -193,6 +191,8 @@
         <button class="btn primary" id="goActivate" type="button">تفعيل الضمان</button>
         <button class="btn ghost" id="goSearch" type="button">بحث عن فترة الضمان</button>
       </div>
+
+      <div class="footer" id="cloudStatus">… جاري الاتصال بقاعدة البيانات</div>
     </div>
 
     <!-- ACTIVATION -->
@@ -276,7 +276,7 @@
         </div>
       </div>
 
-      <div class="footer">هاتف المساعدة: <span style="font-weight:950; direction:ltr; display:inline-block;">9647722806645</span></div>
+      <div class="footer">هاتف المساعدة: <span style="font-weight:980; direction:ltr; display:inline-block;">9647722806645</span></div>
     </div>
 
     <!-- SEARCH -->
@@ -301,7 +301,7 @@
 
       <div id="searchResult" class="hidden" style="margin-top:12px;">
         <div class="sep"></div>
-        <div class="badge" id="searchStatusBadge">
+        <div class="badge">
           <span class="dot" id="searchDot"></span>
           <span id="searchStatusText">🟢 داخل الضمان</span>
         </div>
@@ -335,32 +335,33 @@
         </div>
       </div>
 
-      <div class="footer" id="searchNote">
-        (البيانات محفوظة على نفس الجهاز/المتصفح فقط. للبحث من جهاز ثاني لازم سيرفر.)
-      </div>
+      <div class="footer" id="searchNote">اكتب الاسم الثلاثي + رقم الهاتف ثم اضغط بحث.</div>
     </div>
   </div>
 
-<script>
-  // ====== تنبيه مهم ======
-  // حفظ "بداخل HTML" بحيث يظهر على جهاز ثاني غير ممكن تقنياً بدون سيرفر.
-  // هذا الملف يحفظ داخل قاعدة بيانات المتصفح (IndexedDB) على نفس الجهاز فقط.
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBMZbRFRU5-GyAmEwLHDspnY6PkEcaz6Ak",
+    authDomain: "albaman-f8a20.firebaseapp.com",
+    projectId: "albaman-f8a20",
+    storageBucket: "albaman-f8a20.firebasestorage.app",
+    messagingSenderId: "770267943286",
+    appId: "1:770267943286:web:e3da1c43d65740d7b52a57",
+    measurementId: "G-CB2PYMZSZT"
+  };
 
   const HELP_PHONE = "9647722806645";
-  const WARRANTY_MONTHS = 12;
+  const WARRANTY_DAYS = 365;
+  const COLLECTION = "warranties";
 
   const $ = (id) => document.getElementById(id);
-
   function sanitizePhone(p){ return (p || "").trim().replace(/\s+/g,""); }
   function normalizeName(n){ return (n || "").trim().replace(/\s+/g," "); }
+  function makeKey(name, phone){ return `${normalizeName(name).toLowerCase()}|${sanitizePhone(phone)}`; }
 
-  function addMonths(date, months){
-    const d = new Date(date);
-    const origDay = d.getDate();
-    d.setMonth(d.getMonth() + months);
-    if (d.getDate() !== origDay) d.setDate(0);
-    return d;
-  }
   function formatDate(d){
     const y = d.getFullYear();
     const m = String(d.getMonth()+1).padStart(2,'0');
@@ -369,6 +370,7 @@
     const mm = String(d.getMinutes()).padStart(2,'0');
     return `${y}-${m}-${day} ${hh}:${mm}`;
   }
+  function addDays(date, days){ const d = new Date(date); d.setDate(d.getDate()+days); return d; }
 
   function showActivate(){
     $("activateCard").classList.remove("hidden");
@@ -385,49 +387,6 @@
   $("goActivate").addEventListener("click", showActivate);
   $("goSearch").addEventListener("click", showSearch);
 
-  // ====== IndexedDB (Database) ======
-  const DB_NAME = "dhamanWarrantyDB";
-  const DB_VER = 1;
-  const STORE = "records";
-
-  function openDB(){
-    return new Promise((resolve, reject) => {
-      const req = indexedDB.open(DB_NAME, DB_VER);
-      req.onupgradeneeded = () => {
-        const db = req.result;
-        const store = db.createObjectStore(STORE, { keyPath: "key" });
-        store.createIndex("by_name_phone", "key", { unique: true });
-      };
-      req.onsuccess = () => resolve(req.result);
-      req.onerror = () => reject(req.error);
-    });
-  }
-
-  async function putRecord(record){
-    const db = await openDB();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(STORE, "readwrite");
-      tx.objectStore(STORE).put(record);
-      tx.oncomplete = () => resolve(true);
-      tx.onerror = () => reject(tx.error);
-    });
-  }
-
-  async function getRecord(key){
-    const db = await openDB();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(STORE, "readonly");
-      const req = tx.objectStore(STORE).get(key);
-      req.onsuccess = () => resolve(req.result || null);
-      req.onerror = () => reject(req.error);
-    });
-  }
-
-  function makeKey(name, phone){
-    return `${normalizeName(name).toLowerCase()}|${sanitizePhone(phone)}`;
-  }
-
-  // ====== status badge ======
   function setStatus(active, message){
     const badge = $("statusBadge");
     const dot = $("statusDot");
@@ -445,36 +404,49 @@
     }
   }
 
-  // ====== countdown ======
-  let timer = null;
+  let timer=null;
   function startCountdown(endDate){
     if(timer) clearInterval(timer);
     function tick(){
       const now = new Date();
       const diff = endDate - now;
       if(diff <= 0){
-        $("d").textContent = "0"; $("h").textContent = "0"; $("m").textContent = "0"; $("s").textContent = "0";
+        $("d").textContent="0"; $("h").textContent="0"; $("m").textContent="0"; $("s").textContent="0";
         setStatus(false, "🔴 الضمان غير نافذ");
-        clearInterval(timer); timer = null;
-        return;
+        clearInterval(timer); timer=null; return;
       }
-      const totalSeconds = Math.floor(diff / 1000);
-      const days = Math.floor(totalSeconds / (24*3600));
-      const hours = Math.floor((totalSeconds % (24*3600)) / 3600);
-      const mins = Math.floor((totalSeconds % 3600) / 60);
-      const secs = totalSeconds % 60;
+      const totalSeconds = Math.floor(diff/1000);
+      const days = Math.floor(totalSeconds/(24*3600));
+      const hours = Math.floor((totalSeconds%(24*3600))/3600);
+      const mins = Math.floor((totalSeconds%3600)/60);
+      const secs = totalSeconds%60;
 
-      $("d").textContent = String(days);
-      $("h").textContent = String(hours).padStart(2,'0');
-      $("m").textContent = String(mins).padStart(2,'0');
-      $("s").textContent = String(secs).padStart(2,'0');
+      $("d").textContent=String(days);
+      $("h").textContent=String(hours).padStart(2,'0');
+      $("m").textContent=String(mins).padStart(2,'0');
+      $("s").textContent=String(secs).padStart(2,'0');
       setStatus(true, "🟢 الجهاز داخل الضمان");
     }
     tick();
-    timer = setInterval(tick, 1000);
+    timer=setInterval(tick,1000);
   }
 
-  // ====== Activation ======
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  try{
+    await getDoc(doc(db, COLLECTION, "__ping__"));
+    $("cloudStatus").textContent = "✅ متصل بقاعدة البيانات";
+  }catch(e){
+    $("cloudStatus").textContent = "⚠️ تأكد من إنشاء Firestore وتشغيله (test mode)";
+  }
+
+  (function initFromURL(){
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get("code");
+    if(code) $("code").value = code;
+  })();
+
   $("activateBtn").addEventListener("click", async () => {
     const fullName = normalizeName($("fullName").value);
     const phone = sanitizePhone($("phone").value);
@@ -488,18 +460,26 @@
     if(!model) return alert("رجاءً اكتب موديل الجهاز.");
     if(!address) return alert("رجاءً اكتب العنوان الكامل.");
 
-    const start = new Date();
-    const end = addMonths(start, WARRANTY_MONTHS);
-
-    const record = {
-      key: makeKey(fullName, phone),
-      fullName, phone, model, address, series, code,
-      startISO: start.toISOString(),
-      endISO: end.toISOString()
-    };
+    const key = makeKey(fullName, phone);
+    const ref = doc(db, COLLECTION, key);
 
     try{
-      await putRecord(record);
+      const snap = await getDoc(ref);
+      if(snap.exists()){
+        alert("عذراً، هذا المستخدم موجود بالفعل وتم تفعيل الضمان مسبقاً.");
+        return;
+      }
+
+      const start = new Date();
+      const end = addDays(start, WARRANTY_DAYS);
+
+      await setDoc(ref, {
+        key, fullName, phone, model, address, series,
+        code: code || null,
+        startISO: start.toISOString(),
+        endISO: end.toISOString(),
+        createdAt: serverTimestamp()
+      });
 
       $("resultBox").classList.remove("hidden");
       $("startDate").textContent = formatDate(start);
@@ -512,11 +492,10 @@
 
       $("resultBox").scrollIntoView({behavior:"smooth", block:"start"});
     }catch(e){
-      alert("صار خطأ بالحفظ داخل قاعدة البيانات على هذا الجهاز.");
+      alert("تعذر الحفظ. تأكد من Firestore Rules (test mode) ومن الاتصال بالنت.");
     }
   });
 
-  // ====== Search ======
   $("searchBtn").addEventListener("click", async () => {
     const name = normalizeName($("searchName").value);
     const phone = sanitizePhone($("searchPhone").value);
@@ -525,37 +504,43 @@
     if(phone.length < 10) return alert("رجاءً اكتب رقم الهاتف.");
 
     const key = makeKey(name, phone);
-    const rec = await getRecord(key);
+    const ref = doc(db, COLLECTION, key);
 
-    if(!rec){
+    try{
+      const snap = await getDoc(ref);
+      if(!snap.exists()){
+        $("searchResult").classList.add("hidden");
+        $("searchNote").textContent = "❌ لم يتم العثور على بيانات لهذا الاسم/الرقم.";
+        return;
+      }
+
+      const rec = snap.data();
+      $("rName").textContent = rec.fullName || "";
+      $("rPhone").textContent = rec.phone || "";
+      $("rModel").textContent = rec.model || "";
+      $("rSeries").textContent = rec.series || "";
+
+      const end = new Date(rec.endISO);
+      $("rEnd").textContent = formatDate(end);
+
+      const active = (new Date()) <= end;
+      if(active){
+        $("searchDot").className = "dot";
+        $("searchStatusText").textContent = "🟢 الجهاز داخل الضمان";
+      }else{
+        $("searchDot").className = "dot bad";
+        $("searchStatusText").textContent = "🔴 الضمان غير نافذ";
+      }
+
+      $("searchNote").textContent = "";
+      $("searchResult").classList.remove("hidden");
+      $("searchResult").scrollIntoView({behavior:"smooth", block:"start"});
+    }catch(e){
       $("searchResult").classList.add("hidden");
-      $("searchNote").textContent = "❌ لم يتم العثور على بيانات لهذا الاسم/الرقم على هذا الجهاز.";
-      return;
+      $("searchNote").textContent = "⚠️ خطأ بالاتصال أو الصلاحيات.";
     }
-
-    $("rName").textContent = rec.fullName;
-    $("rPhone").textContent = rec.phone;
-    $("rModel").textContent = rec.model;
-    $("rSeries").textContent = rec.series;
-
-    const end = new Date(rec.endISO);
-    $("rEnd").textContent = formatDate(end);
-
-    const active = (new Date()) <= end;
-    if(active){
-      $("searchDot").className = "dot";
-      $("searchStatusText").textContent = "🟢 الجهاز داخل الضمان";
-    }else{
-      $("searchDot").className = "dot bad";
-      $("searchStatusText").textContent = "🔴 الضمان غير نافذ";
-    }
-
-    $("searchResult").classList.remove("hidden");
-    $("searchNote").textContent = "";
-    $("searchResult").scrollIntoView({behavior:"smooth", block:"start"});
   });
 
-  // ====== Buttons ======
   $("callHelp").addEventListener("click", () => window.location.href = `tel:${HELP_PHONE}`);
   $("callHelp2").addEventListener("click", () => window.location.href = `tel:${HELP_PHONE}`);
   $("backBtn").addEventListener("click", showActivate);
@@ -578,13 +563,6 @@
       alert("ماگدرنا ننسخ تلقائياً. انسخ يدوياً:\n\n" + text);
     }
   });
-
-  // ====== init from URL code ======
-  (function initFromURL(){
-    const url = new URL(window.location.href);
-    const code = url.searchParams.get("code");
-    if(code) $("code").value = code;
-  })();
 
   showActivate();
 </script>
