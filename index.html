@@ -33,7 +33,7 @@
 
       --shadow: 0 26px 70px rgba(0,0,0,.65);
       --shadow2: 0 16px 46px rgba(0,0,0,.48);
-      --blur: 26px;
+      --blur: 14px;
 
       --rXL: 30px;
       --rL: 22px;
@@ -50,19 +50,12 @@
         radial-gradient(900px 700px at 85% 20%, rgba(10,132,255,.22), transparent 60%),
         radial-gradient(900px 700px at 50% 90%, rgba(50,215,75,.20), transparent 60%),
         linear-gradient(180deg, var(--bg2), var(--bg1) 45%, var(--bg0));
-      animation: bgMove 18s ease-in-out infinite alternate;
+      animation:none;
       -webkit-font-smoothing: antialiased;
       overflow-x:hidden;
     }
 
-    @keyframes bgMove{
-      0%{
-        background-position:
-          0% 0%,
-          100% 0%,
-          50% 100%,
-          0% 0%;
-      }
+    
       100%{
         background-position:
           100% 20%,
@@ -72,7 +65,7 @@
       }
     }
 
-    body:before{
+    body:before{display:none; /* disabled for performance */
       content:"";
       position:fixed; inset:0;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
@@ -94,7 +87,7 @@ body{
       overflow-x:hidden;
     }
 
-    body:before{
+    body:before{display:none; /* disabled for performance */
       content:"";
       position:fixed; inset:0;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.055'/%3E%3C/svg%3E");
@@ -102,7 +95,7 @@ body{
       pointer-events:none;
       mix-blend-mode: multiply;
     }
-body:before{
+body:before{display:none; /* disabled for performance */
       content:"";
       position:fixed; inset:0;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");
@@ -126,7 +119,7 @@ body:before{
     }
 
     /* subtle luxury grain */
-    body:before{
+    body:before{display:none; /* disabled for performance */
       content:"";
       position:fixed; inset:0;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
@@ -353,7 +346,7 @@ body:before{
     .blob.b2{left:-80px; bottom:-80px; background: radial-gradient(circle at 30% 30%, rgba(50,215,75,.70), rgba(50,215,75,0)); animation-duration: 8.6s;}
     .blob.b3{right:40px; bottom:-95px; background: radial-gradient(circle at 30% 30%, rgba(255,214,10,.55), rgba(255,214,10,0)); animation-duration: 9.4s;}
     @keyframes floaty{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-18px,14px,0) scale(1.05)}}
-    .spark{position:absolute;width:8px;height:8px;border-radius:999px;background: rgba(255,255,255,.85);box-shadow: 0 0 0 6px rgba(255,255,255,.08);opacity:0;animation:sparkle 2.9s ease-in-out infinite;}
+    .spark{position:absolute;width:8px;height:8px;border-radius:999px;background: rgba(255,255,255,.85);box-shadow: 0 0 0 6px rgba(255,255,255,.08);opacity:0;animation:none;}
     .spark.s1{left:18px; top:18px;}
     .spark.s2{left:54%; top:22px; animation-delay:.7s}
     .spark.s3{right:28px; bottom:22px; animation-delay:1.2s}
@@ -419,7 +412,7 @@ body:before{
       border-radius:3px;
       opacity:.0;
       transform: translateY(-12px) rotate(0deg);
-      animation: confetti 3.8s ease-in-out infinite;
+      animation:none;
       box-shadow: 0 10px 20px rgba(0,0,0,.18);
     }
     .c1{left:12px; top:18px; background: rgba(255,214,10,.95); animation-delay:.1s}
@@ -752,7 +745,7 @@ body:before{
           <div class="help">اختيار صورة من الكاميرا أو الاستوديو — تنحفظ وتظهر بالبحث.</div>
           <div class="result hidden" id="imgPreviewBox" style="margin-top:10px">
             <div class="k">معاينة</div>
-            <div class="v"><img id="imgPreview" class="preview" /></div>
+            <div class="v"><img loading="lazy" id="imgPreview" class="preview" /></div>
           </div>
         </div>
       </div>
@@ -984,7 +977,7 @@ body:before{
         pill.textContent = "داخل الضمان";
       }
       tick();
-      __countdownTimer = setInterval(tick, 1000);
+      __countdownTimer = setInterval(tick, 1000); // single timer
     }
 
     function renderHistory(purchases){
@@ -1005,7 +998,7 @@ body:before{
       box.innerHTML = list.map((p, i)=>{
         const s = p.startISO ? fmt(new Date(p.startISO)) : "-";
         const e = p.endISO ? fmt(new Date(p.endISO)) : "-";
-        const img = p.invoiceImage ? `<img class="preview" alt="invoice ${i+1}" src="${p.invoiceImage}"/>` : "";
+        const img = p.invoiceImage ? `<img loading="lazy" class="preview" alt="invoice ${i+1}" src="${p.invoiceImage}"/>` : "";
         return `
           <div class="result" style="margin-top:0">
             <div class="k">فاتورة #${i+1}</div>
@@ -1250,7 +1243,7 @@ $("resultBox").classList.remove("hidden");
             <td>${i+1}</td>
             <td>${p.startISO ? new Date(p.startISO).toLocaleString() : '-'}</td>
             <td>${p.endISO ? new Date(p.endISO).toLocaleString() : '-'}</td>
-            <td>${p.invoiceImage ? `<img src="${p.invoiceImage}" alt="invoice ${i+1}"/>` : '-'}</td>
+            <td>${p.invoiceImage ? `<img loading="lazy" src="${p.invoiceImage}" alt="invoice ${i+1}"/>` : '-'}</td>
           </tr>
         `).join('')}
       </tbody>
