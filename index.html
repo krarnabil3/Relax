@@ -285,12 +285,6 @@
       window.scrollTo({top:0, behavior:"smooth"});
     }
     function showActivate(){
-      const pass = prompt("أدخل رمز فتح صفحة تفعيل الضمان:");
-      if(pass !== "878705"){
-        alert("رمز غير صحيح");
-        showSearch();
-        return;
-      }
       $("activateCard").classList.remove("hidden");
       $("searchCard").classList.add("hidden");
       $("goActivate").classList.add("active");
