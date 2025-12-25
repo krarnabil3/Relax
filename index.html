@@ -9,32 +9,31 @@
 
     
     
+    
     :root{
-      /* Premium joyful palette */
-      --bg0:#FFFDF8;
-      --bg1:#FFF6F0;
-      --bg2:#F1F6FF;
+      --bg0:#050608;
+      --bg1:#0A0D14;
+      --bg2:#0F1420;
 
-      --glass: rgba(255,255,255,.78);
-      --glass2: rgba(255,255,255,.58);
-      --stroke: rgba(20,28,46,.10);
-      --stroke2: rgba(20,28,46,.08);
+      --glass: rgba(255,255,255,.10);
+      --glass2: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.16);
+      --stroke2: rgba(255,255,255,.12);
 
-      --text: rgba(20,28,46,.90);
-      --muted: rgba(20,28,46,.60);
-      --muted2: rgba(20,28,46,.44);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.62);
+      --muted2: rgba(255,255,255,.46);
 
-      /* Accents */
       --blue:#0A84FF;
-      --mint:#34C759;
-      --gold:#FFCC00;
+      --mint:#32D74B;
+      --gold:#FFD60A;
       --pink:#FF2D55;
       --purple:#AF52DE;
       --orange:#FF9500;
 
-      --shadow: 0 24px 60px rgba(18,20,30,.14);
-      --shadow2: 0 14px 36px rgba(18,20,30,.16);
-      --blur: 24px;
+      --shadow: 0 26px 70px rgba(0,0,0,.65);
+      --shadow2: 0 16px 46px rgba(0,0,0,.48);
+      --blur: 26px;
 
       --rXL: 30px;
       --rL: 22px;
@@ -43,6 +42,45 @@
     }
 
     body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Display","SF Pro Text","Segoe UI", Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 700px at 15% 10%, rgba(175,82,222,.22), transparent 60%),
+        radial-gradient(900px 700px at 85% 20%, rgba(10,132,255,.22), transparent 60%),
+        radial-gradient(900px 700px at 50% 90%, rgba(50,215,75,.20), transparent 60%),
+        linear-gradient(180deg, var(--bg2), var(--bg1) 45%, var(--bg0));
+      animation: bgMove 18s ease-in-out infinite alternate;
+      -webkit-font-smoothing: antialiased;
+      overflow-x:hidden;
+    }
+
+    @keyframes bgMove{
+      0%{
+        background-position:
+          0% 0%,
+          100% 0%,
+          50% 100%,
+          0% 0%;
+      }
+      100%{
+        background-position:
+          100% 20%,
+          0% 30%,
+          50% 80%,
+          0% 0%;
+      }
+    }
+
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+      opacity:.22;
+      pointer-events:none;
+      mix-blend-mode: overlay;
+    }
+body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Display","SF Pro Text","Segoe UI", Arial;
       color:var(--text);
