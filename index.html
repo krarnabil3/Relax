@@ -292,7 +292,89 @@
     .wBar{background: rgba(0,0,0,.26);border:1px solid rgba(255,255,255,.10)}
     .wFill{background: linear-gradient(90deg, rgba(50,215,75,.85), rgba(10,132,255,.85));}
 
-  </style>
+  
+    /* ===== Big Joyful Welcome ===== */
+    .bigWelcome{
+      padding:22px 18px;
+      min-height:180px;
+    }
+    .bigWelcome .wmBadge{
+      font-size:13px;
+      padding:8px 14px;
+      background: rgba(255,214,10,.14);
+      border-color: rgba(255,214,10,.30);
+    }
+    .wmHeadline{
+      margin-top:12px;
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:.3px;
+      line-height:1.2;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+    .dotSep{color:rgba(255,255,255,.55); font-weight:800}
+    .grad, .grad2, .grad3{
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      display:inline-block;
+    }
+    .grad{background-image: linear-gradient(90deg, rgba(10,132,255,1), rgba(120,195,255,1));}
+    .grad2{background-image: linear-gradient(90deg, rgba(50,215,75,1), rgba(180,255,210,1));}
+    .grad3{background-image: linear-gradient(90deg, rgba(255,214,10,1), rgba(255,240,180,1));}
+
+    .bigWelcome .wmTitle{
+      margin-top:8px;
+      font-size:17px;
+      font-weight:800;
+    }
+    .bigWelcome .wmDesc{
+      font-size:14px;
+      color:rgba(255,255,255,.74);
+    }
+
+    /* Confetti pieces */
+    .cf{
+      position:absolute;
+      width:10px;height:10px;
+      border-radius:3px;
+      opacity:.0;
+      transform: translateY(-12px) rotate(0deg);
+      animation: confetti 3.8s ease-in-out infinite;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+    }
+    .c1{left:12px; top:18px; background: rgba(255,214,10,.95); animation-delay:.1s}
+    .c2{left:36px; top:44px; background: rgba(10,132,255,.95); animation-delay:.45s}
+    .c3{left:64%; top:16px; background: rgba(50,215,75,.95); animation-delay:.75s}
+    .c4{right:18px; top:40px; background: rgba(255,69,58,.95); animation-delay:1.05s}
+    .c5{right:62px; top:16px; background: rgba(180,255,210,.95); animation-delay:1.35s}
+    .c6{left:18px; bottom:30px; background: rgba(120,195,255,.95); animation-delay:1.65s}
+    .c7{right:18px; bottom:26px; background: rgba(255,240,180,.95); animation-delay:1.95s}
+    .c8{left:54%; bottom:26px; background: rgba(255,214,10,.95); animation-delay:2.25s}
+
+    @keyframes confetti{
+      0%, 68%, 100%{ opacity:0; transform: translateY(-12px) rotate(0deg) }
+      72%{ opacity:.95; transform: translateY(0px) rotate(30deg) }
+      86%{ opacity:.75; transform: translateY(10px) rotate(120deg) }
+      94%{ opacity:0; transform: translateY(18px) rotate(180deg) }
+    }
+
+    /* Nice entrance animation */
+    .bigWelcome{ animation: popIn .55s ease both; }
+    @keyframes popIn{
+      from{ transform: translateY(10px) scale(.985); opacity:0; }
+      to{ transform: translateY(0) scale(1); opacity:1; }
+    }
+
+    @media (max-width:480px){
+      .wmHeadline{font-size:19px}
+      .bigWelcome{min-height:190px}
+    }
+
+</style>
 </head>
 <body>
   <div class="wrap">
@@ -314,16 +396,42 @@
 
       <!-- رسالة ترحيبية ثابتة -->
       
+      
       <div class="result" id="welcomeBanner">
-        <div class="welcomeMotion">
+        <div class="welcomeMotion bigWelcome" role="status" aria-label="Welcome">
           <div class="wmBg">
             <span class="blob b1"></span>
             <span class="blob b2"></span>
             <span class="blob b3"></span>
+
             <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span>
+
+            <!-- confetti -->
+            <span class="cf c1"></span><span class="cf c2"></span><span class="cf c3"></span><span class="cf c4"></span>
+            <span class="cf c5"></span><span class="cf c6"></span><span class="cf c7"></span><span class="cf c8"></span>
           </div>
 
           <div class="wmText">
+            <div class="wmBadge">🎉 مبروك</div>
+
+            <div class="wmHeadline">
+              <span class="grad">جهاز أصلي</span>
+              <span class="dotSep">•</span>
+              <span class="grad2">ضمان حقيقي</span>
+              <span class="dotSep">•</span>
+              <span class="grad3">سنة كاملة</span>
+            </div>
+
+            <div class="wmTitle">راقي… قوي… ومضمون ✅</div>
+
+            <div class="wmDesc">
+              شكراً لثقتك بـ <b>شركة الضمان للأجهزة الكهربائية</b> — خدمة راقية ومتابعة حقيقية.
+              <br/>📞 خدمة الضمان: <b dir="ltr">07722806645</b>
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="wmText">
             <div class="wmBadge">✨ تهانينا</div>
             <div class="wmTitle">جهاز راقي • أداء قوي • ضمان حقيقي</div>
             <div class="wmDesc">
