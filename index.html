@@ -736,8 +736,8 @@ body:before{display:none; /* disabled for performance */
 
         <div style="grid-column:1/-1">
           <label>صورة الفاتورة (إلزامي)</label>
-          <input id="imgFromCamera" type="file" accept="image/*" capture="environment" class="hidden" />
-          <input id="imgFromGallery" type="file" accept="image/*" class="hidden" />
+          <input id="imgFromCamera" type="file" accept="image/*" capture="environment" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+          <input id="imgFromGallery" type="file" accept="image/*" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
           <div class="row" style="margin-top:0">
             <button class="btn primary" id="btnCamera" type="button">📷 الكاميرا</button>
             <button class="btn ghost" id="btnGallery" type="button">🖼️ الاستوديو</button>
