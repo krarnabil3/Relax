@@ -292,7 +292,7 @@
     }
     function showActivate(){
       const pass = prompt("أدخل رمز فتح صفحة حفظ:");
-      if(pass !== "878705"){
+      if(pass !== ""){
         alert("رمز غير صحيح");
         showSearch();
         return;
@@ -400,9 +400,7 @@
     }
 
     $("activateBtn").addEventListener("click", async ()=>{
-      const pass = prompt("أدخل كلمة السر لحفظ:");
-      if(pass !== "878705"){ alert("كلمة السر غير صحيحة."); return; }
-      const fullName = normalizeName($("fullName").value);
+const fullName = normalizeName($("fullName").value);
       const phone = sanitizePhone($("phone").value);
       const img = window.__invoiceImageData;
       const isPrev = $("isPrevCustomer").checked;
