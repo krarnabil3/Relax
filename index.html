@@ -1249,6 +1249,22 @@ $("resultBox").classList.remove("hidden");
       </tbody>
     </table>
   </div>
+
+<script>
+  const resetBtn = document.getElementById("resetBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      const nameInput = document.getElementById("fullName") || document.getElementById("name");
+      const phoneInput = document.getElementById("phone");
+
+      if (nameInput) nameInput.value = "";
+      if (phoneInput) phoneInput.value = "";
+
+      if (nameInput) nameInput.focus();
+    });
+  }
+</script>
+
 </body>
 </html>`;
 
@@ -1260,5 +1276,21 @@ $("resultBox").classList.remove("hidden");
     }
     showSearch();
   </script>
+
+<script>
+  const resetBtn = document.getElementById("resetBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      const nameInput = document.getElementById("fullName") || document.getElementById("name");
+      const phoneInput = document.getElementById("phone");
+
+      if (nameInput) nameInput.value = "";
+      if (phoneInput) phoneInput.value = "";
+
+      if (nameInput) nameInput.focus();
+    });
+  }
+</script>
+
 </body>
 </html>
