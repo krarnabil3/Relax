@@ -768,11 +768,80 @@ body:before{display:none; /* disabled for performance */
     </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
+    // ---------- Firebase Config Modal + Validation ----------
+    function configLooksInvalid(cfg){
+      if(!cfg) return true;
+      const s = JSON.stringify(cfg);
+      if(s.includes("...")) return true;
+      const required = ["apiKey","authDomain","projectId","appId"];
+      return required.some(k => !cfg[k] || String(cfg[k]).trim()==="");
+    }
+
+    function showCfgModal(show){
+      const m = document.getElementById("cfgModal");
+      if(!m) return;
+      m.classList.toggle("hidden", !show);
+      if(show){
+        // preload current
+        const t = document.getElementById("cfgText");
+        try{
+          const raw = localStorage.getItem("firebaseConfig");
+          if(raw) t.value = raw;
+        }catch(_){}
+      }
+    }
+
+    function setConnStatus(ok, msg){
+      const dot = document.getElementById("connDot") || document.getElementById("fireDot") || document.getElementById("searchDot");
+      const text = document.getElementById("connText") || document.getElementById("fireText") || document.getElementById("statusText") || document.getElementById("searchStatusText");
+      if(dot) dot.className = ok ? "dot ok" : "dot bad";
+      if(text) text.textContent = msg;
+    }
+
+    // Wire modal buttons
+    (function(){
+      const saveBtn = document.getElementById("cfgSave");
+      const clearBtn = document.getElementById("cfgClear");
+      const closeBtn = document.getElementById("cfgClose");
+      const err = document.getElementById("cfgErr");
+      const textarea = document.getElementById("cfgText");
+
+      if(closeBtn) closeBtn.onclick = ()=> showCfgModal(false);
+      if(clearBtn) clearBtn.onclick = ()=>{ localStorage.removeItem("firebaseConfig"); location.reload(); };
+
+      if(saveBtn) saveBtn.onclick = ()=>{
+        err.style.display="none";
+        try{
+          const cfg = JSON.parse((textarea.value||"").trim());
+          if(configLooksInvalid(cfg)){
+            err.textContent = "الإعدادات ناقصة. تأكد أن فيها apiKey, authDomain, projectId, appId";
+            err.style.display="block";
+            return;
+          }
+          localStorage.setItem("firebaseConfig", JSON.stringify(cfg));
+          location.reload();
+        }catch(e){
+          err.textContent = "JSON غير صحيح. الصق firebaseConfig بصيغة JSON فقط.";
+          err.style.display="block";
+        }
+      };
+    })();
+
+</script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script>
-    const firebaseConfig = {"apiKey": "AIzaSyBMZbRFRU5-GyAmEwLHDspnY6PkEcaz6Ak", "authDomain": "albaman-f8a20.firebaseapp.com", "projectId": "albaman-f8a20", "storageBucket": "albaman-f8a20.firebasestorage.app", "messagingSenderId": "770267943286", "appId": "1:770267943286:web:e3da1c43d65740d7b52a57", "measurementId": "G-CB2PYMZSZT"};
+    const firebaseConfigFallback = {"apiKey": "PASTE_IN_MODAL", "authDomain": "", "projectId": "", "storageBucket": "", "messagingSenderId": "", "appId": ""};
+    function getFirebaseConfig(){
+      try{
+        const raw = localStorage.getItem("firebaseConfig");
+        if(!raw) return firebaseConfigFallback;
+        const cfg = JSON.parse(raw);
+        return cfg;
+      }catch(_){ return firebaseConfigFallback; }
+    }
+    const firebaseConfig = getFirebaseConfig();
     const HELP_PHONE = "07722806645";
     const WARRANTY_DAYS = 365;
 
@@ -890,7 +959,12 @@ body:before{display:none; /* disabled for performance */
     // ---- Firestore ----
     let db = null;
     try{
-      firebase.initializeApp(firebaseConfig);
+      if(configLooksInvalid(firebaseConfig)){
+      setConnStatus(false, '⚠️ إعدادات Firebase ناقصة — افتح الإعداد');
+      showCfgModal(true);
+      throw new Error('INVALID_FIREBASE_CONFIG');
+    }
+    firebase.initializeApp(firebaseConfig);
       db = firebase.firestore();
     }catch(e){
       setConn("bad","❌ خطأ بتهيئة Firebase");
@@ -1264,6 +1338,28 @@ $("resultBox").classList.remove("hidden");
     });
   }
 </script>
+
+
+  <!-- Firebase Config Setup Modal -->
+  <div id="cfgModal" class="hidden" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.55)">
+    <div class="card" style="max-width:760px;width:100%;padding:18px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <div style="font-size:16px;font-weight:800">إعداد اتصال Firebase</div>
+        <button id="cfgClose" class="pillbtn" type="button">إغلاق</button>
+      </div>
+      <div class="help" style="margin-top:10px">
+        المشكلة لأن إعدادات Firebase داخل الملف ناقصة/مقطوعة. انسخ <b>firebaseConfig</b> كامل من Firebase Console → Project settings → Your apps → Firebase SDK snippet (Config)
+        والصقه هنا، ثم اضغط حفظ.
+      </div>
+      <label style="margin-top:12px">الصق firebaseConfig JSON هنا</label>
+      <textarea id="cfgText" rows="7" placeholder='مثال: {"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"..."}'></textarea>
+      <div class="row">
+        <button id="cfgSave" class="btn primary" type="button">حفظ وربط ✅</button>
+        <button id="cfgClear" class="btn ghost" type="button">مسح الإعدادات</button>
+      </div>
+      <div class="help" id="cfgErr" style="color:var(--red);display:none;margin-top:10px"></div>
+    </div>
+  </div>
 
 </body>
 </html>`;
