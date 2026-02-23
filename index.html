@@ -1,1264 +1,171 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>شركة الضمان للأجهزة الكهربائية</title>
-  <meta name="theme-color" content="#061724" />
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسعيرة دروب فندي</title>
 
-    
-    
-    
-    :root{
-      --bg0:#050608;
-      --bg1:#0A0D14;
-      --bg2:#0F1420;
-
-      --glass: rgba(255,255,255,.10);
-      --glass2: rgba(255,255,255,.06);
-      --stroke: rgba(255,255,255,.16);
-      --stroke2: rgba(255,255,255,.12);
-
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.62);
-      --muted2: rgba(255,255,255,.46);
-
-      --blue:#0A84FF;
-      --mint:#32D74B;
-      --gold:#FFD60A;
-      --pink:#FF2D55;
-      --purple:#AF52DE;
-      --orange:#FF9500;
-
-      --shadow: 0 26px 70px rgba(0,0,0,.65);
-      --shadow2: 0 16px 46px rgba(0,0,0,.48);
-      --blur: 14px;
-
-      --rXL: 30px;
-      --rL: 22px;
-      --rM: 18px;
-      --rS: 14px;
-    }
-
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Display","SF Pro Text","Segoe UI", Arial;
-      color:var(--text);
-      background:
-        radial-gradient(900px 700px at 15% 10%, rgba(175,82,222,.22), transparent 60%),
-        radial-gradient(900px 700px at 85% 20%, rgba(10,132,255,.22), transparent 60%),
-        radial-gradient(900px 700px at 50% 90%, rgba(50,215,75,.20), transparent 60%),
-        linear-gradient(180deg, var(--bg2), var(--bg1) 45%, var(--bg0));
-      animation:none;
-      -webkit-font-smoothing: antialiased;
-      overflow-x:hidden;
-    }
-
-    
-      100%{
-        background-position:
-          100% 20%,
-          0% 30%,
-          50% 80%,
-          0% 0%;
-      }
-    }
-
-    body:before{display:none; /* disabled for performance */
-      content:"";
-      position:fixed; inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
-      opacity:.22;
-      pointer-events:none;
-      mix-blend-mode: overlay;
-    }
-body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Display","SF Pro Text","Segoe UI", Arial;
-      color:var(--text);
-      background:
-        radial-gradient(900px 650px at 12% -10%, rgba(175,82,222,.18), transparent 62%),
-        radial-gradient(900px 650px at 110% 0%, rgba(10,132,255,.16), transparent 62%),
-        radial-gradient(900px 650px at 50% 115%, rgba(52,199,89,.14), transparent 60%),
-        radial-gradient(700px 520px at 0% 90%, rgba(255,149,0,.14), transparent 60%),
-        linear-gradient(180deg, var(--bg2), var(--bg1) 42%, var(--bg0));
-      -webkit-font-smoothing: antialiased;
-      overflow-x:hidden;
-    }
-
-    body:before{display:none; /* disabled for performance */
-      content:"";
-      position:fixed; inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.055'/%3E%3C/svg%3E");
-      opacity:.35;
-      pointer-events:none;
-      mix-blend-mode: multiply;
-    }
-body:before{display:none; /* disabled for performance */
-      content:"";
-      position:fixed; inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");
-      opacity:.35;
-      pointer-events:none;
-      mix-blend-mode: multiply;
-    }
-*{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Display","SF Pro Text","Segoe UI", Arial;
-      color:var(--text);
-      background:
-        radial-gradient(1000px 700px at 16% -10%, rgba(10,132,255,.22), transparent 60%),
-        radial-gradient(900px 650px at 110% 0%, rgba(50,215,75,.12), transparent 60%),
-        radial-gradient(700px 500px at 55% 105%, rgba(255,214,10,.08), transparent 55%),
-        linear-gradient(180deg, var(--bg2), var(--bg1) 40%, var(--bg0));
-      -webkit-font-smoothing: antialiased;
-      overflow-x:hidden;
-    }
-
-    /* subtle luxury grain */
-    body:before{display:none; /* disabled for performance */
-      content:"";
-      position:fixed; inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
-      opacity:.12;
-      pointer-events:none;
-      mix-blend-mode: overlay;
-    }
-
-    .wrap{max-width:980px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 14px 84px}
-    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 10px 0}
-    .brand{display:flex;align-items:center;gap:12px;min-width:0}
-
-    .logo{
-      width:46px;height:46px;border-radius:18px;flex:none;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(175,82,222,.95), rgba(10,132,255,.10)),
-        radial-gradient(circle at 80% 80%, rgba(50,215,75,.55), rgba(50,215,75,.05)),
-        radial-gradient(circle at 40% 90%, rgba(255,149,0,.30), rgba(255,214,10,0));
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 18px 42px rgba(0,0,0,.42);
-      position:relative;
-      overflow:hidden;
-    }
-    .logo:after{
-      content:"";
-      position:absolute; inset:-30%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.20), transparent 55%);
-      transform: rotate(10deg);
-    }
-
-    .title h1{margin:0;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.2px}
-    .title .sub{margin-top:4px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-    /* premium glass surfaces */
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
-      border:1px solid var(--stroke);
-      border-radius:var(--rXL);
-      box-shadow:var(--shadow);
-      backdrop-filter: blur(var(--blur));
-      -webkit-backdrop-filter: blur(var(--blur));
-      position:relative;
-      overflow:hidden;
-    }
-    .card:before{
-      content:"";
-      position:absolute; inset:0;
-      background: radial-gradient(circle at 20% 10%, rgba(255,255,255,.10), transparent 40%);
-      pointer-events:none;
-    }
-
-    .hero{margin:12px 10px 14px;padding:18px}
-    .hero h2{margin:0;font-size:22px;letter-spacing:.2px}
-    .hero p{margin:8px 0 0;line-height:1.7;color:var(--muted)}
-
-    .section{margin:12px 10px;padding:16px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:760px){.grid{grid-template-columns:1fr}}
-
-    label{display:block;margin:2px 10px 8px;font-size:12px;color:var(--muted);letter-spacing:.2px}
-
-    input,textarea{
-      width:100%;
-      border-radius:20px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.22);
-      color:var(--text);
-      padding:14px 14px;
-      font-size:16px;
-      outline:none;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
-      transition: border-color .16s ease, box-shadow .16s ease, transform .10s ease;
-    }
-    input:focus, textarea:focus{
-      border-color: rgba(10,132,255,.55);
-      box-shadow: 0 0 0 4px rgba(10,132,255,.14), inset 0 1px 0 rgba(255,255,255,.10);
-    }
-
-    .help{margin-top:7px;font-size:12px;color:var(--muted2);padding:0 10px;line-height:1.7}
-
-    /* Segmented control – luxe */
-    .seg{
-      margin-top:14px;
-      display:flex;
-      gap:8px;
-      padding:7px;
-      background: rgba(0,0,0,.22);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:20px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
-    }
-    .seg button{
-      flex:1;
-      border:none;
-      cursor:pointer;
-      padding:12px 14px;
-      border-radius:16px;
-      font-size:14px;
-      color:var(--muted);
-      background: transparent;
-      transition:.18s ease;
-      position:relative;
-      overflow:hidden;
-    }
-    .seg button.active{
-      color:var(--text);
-      background: rgba(255,255,255,.10);
-      box-shadow:
-        0 10px 26px rgba(0,0,0,.22),
-        inset 0 1px 0 rgba(255,255,255,.16);
-      border:1px solid rgba(255,255,255,.12);
-    }
-
-    /* iOS glass buttons */
-    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    @media (max-width:760px){.row{flex-direction:column}.btn{min-width:unset}}
-
-    .btn, .pillbtn{
-      position:relative;
-      overflow:hidden;
-      cursor:pointer;
-      border-radius:20px;
-      padding:14px;
-      font-size:16px;
-      color:var(--text);
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      box-shadow: var(--shadow2), inset 0 1px 0 rgba(255,255,255,.18), inset 0 -1px 0 rgba(0,0,0,.20);
-      transition: transform .12s ease, filter .12s ease, background .18s ease;
-    }
-    .btn{flex:1;min-width:170px}
-    .pillbtn{padding:10px 14px;border-radius:999px;font-size:14px}
-
-    .btn::before, .pillbtn::before{
-      content:"";
-      position:absolute;
-      inset:-35%;
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.22), transparent 55%);
-      transform: rotate(8deg);
-      pointer-events:none;
-    }
-    .btn::after, .pillbtn::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.14) 18%, transparent 36%);
-      transform: translateX(-140%);
-      pointer-events:none;
-    }
-    .btn:hover::after, .pillbtn:hover::after{ animation: shine 1.15s ease; }
-    @keyframes shine{ from{transform:translateX(-140%)} to{transform:translateX(140%)} }
-    .btn:active, .pillbtn:active{ transform: scale(.985); filter: brightness(.98); }
-
-    .btn.primary{
-      border:1px solid rgba(120,195,255,.32);
-      background: linear-gradient(135deg, rgba(10,132,255,.62), rgba(175,82,222,.46), rgba(255,149,0,.32));
-      box-shadow: 0 18px 46px rgba(10,132,255,.18), var(--shadow2), inset 0 1px 0 rgba(255,255,255,.18);
-    }
-    .btn.ghost{ background: rgba(0,0,0,.24); }
-
-    /* status bar */
-    .status{
-      margin-top:12px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:12px 14px;
-      border-radius:20px;
-      background: rgba(0,0,0,.22);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .dot{width:10px;height:10px;border-radius:999px;background:var(--gold);box-shadow:0 0 0 4px rgba(255,149,0,.14)}
-    .dot.ok{background:var(--mint);box-shadow:0 0 0 4px rgba(50,215,75,.14)}
-    .dot.bad{background:var(--red);box-shadow:0 0 0 4px rgba(255,69,58,.14)}
-
-    .result{
-      margin-top:14px;
-      padding:14px;
-      border-radius:var(--rL);
-      background: var(--glass2);
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
-    }
-    .kv{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:760px){.kv{grid-template-columns:1fr}}
-    .k{font-size:12px;color:var(--muted2);padding:0 4px}
-    .v{font-size:16px;margin-top:4px;padding:0 4px;line-height:1.7;white-space:pre-wrap}
-    .hidden{display:none !important}
-    img.preview{width:100%;border-radius:18px;border:1px solid rgba(255,255,255,.12)}
-
-    .badge{margin-top:12px;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:20px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.10)}
-
-    /* iOS switch */
-    .switchRow{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:12px 14px;border-radius:20px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.10);
-    }
-    .switchRow .txt{font-size:14px;color:var(--text)}
-    .switch{position:relative;width:54px;height:32px;flex:none}
-    .switch input{opacity:0;width:0;height:0}
-    .slider{position:absolute;cursor:pointer;inset:0;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.16);
-      transition:.2s;border-radius:999px}
-    .slider:before{position:absolute;content:"";height:26px;width:26px;right:3px;top:2px;background:white;border-radius:999px;transition:.2s}
-    .switch input:checked + .slider{background:rgba(50,215,75,.55)}
-    .switch input:checked + .slider:before{transform:translateX(-22px)}
-
-    /* Motion welcome */
-    .welcomeMotion{
-      position:relative;
-      border-radius:22px;
-      overflow:hidden;
-      padding:16px 14px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: 0 18px 52px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.16);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      min-height:128px;
-    }
-    .wmBg{position:absolute;inset:0;pointer-events:none}
-    .blob{position:absolute;width:190px;height:190px;border-radius:999px;filter: blur(18px);opacity:.75;mix-blend-mode: screen;animation: floaty 7.5s ease-in-out infinite;}
-    .blob.b1{right:-70px; top:-70px; background: radial-gradient(circle at 30% 30%, rgba(10,132,255,.95), rgba(10,132,255,0));}
-    .blob.b2{left:-80px; bottom:-80px; background: radial-gradient(circle at 30% 30%, rgba(50,215,75,.70), rgba(50,215,75,0)); animation-duration: 8.6s;}
-    .blob.b3{right:40px; bottom:-95px; background: radial-gradient(circle at 30% 30%, rgba(255,214,10,.55), rgba(255,214,10,0)); animation-duration: 9.4s;}
-    @keyframes floaty{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-18px,14px,0) scale(1.05)}}
-    .spark{position:absolute;width:8px;height:8px;border-radius:999px;background: rgba(255,255,255,.85);box-shadow: 0 0 0 6px rgba(255,255,255,.08);opacity:0;animation:none;}
-    .spark.s1{left:18px; top:18px;}
-    .spark.s2{left:54%; top:22px; animation-delay:.7s}
-    .spark.s3{right:28px; bottom:22px; animation-delay:1.2s}
-    @keyframes sparkle{0%,70%,100%{transform:scale(.6);opacity:0}78%{opacity:.85;transform:scale(1)}86%{opacity:.25;transform:scale(1.2)}}
-    .wmText{position:relative; z-index:1}
-    .wmBadge{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background: rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.14);font-size:12px;color:var(--text);box-shadow: inset 0 1px 0 rgba(255,255,255,.14);}
-    .wmTitle{margin-top:10px;font-size:16px;font-weight:800;letter-spacing:.2px}
-    .wmDesc{margin-top:6px;color:var(--muted);line-height:1.75;font-size:13px}
-
-    /* Warranty box already in file; keep compatible */
-    .warrantyBox{border-radius:22px;background: rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);box-shadow: 0 16px 44px rgba(0,0,0,.26);backdrop-filter: blur(24px);-webkit-backdrop-filter: blur(24px);}
-    .wBar{background: rgba(0,0,0,.26);border:1px solid rgba(255,255,255,.10)}
-    .wFill{background: linear-gradient(90deg, rgba(52,199,89,.85), rgba(10,132,255,.85), rgba(175,82,222,.70));}
-
-  
-    /* ===== Big Joyful Welcome ===== */
-    .bigWelcome{
-      padding:22px 18px;
-      min-height:180px;
-    }
-    .bigWelcome .wmBadge{
-      font-size:13px;
-      padding:8px 14px;
-      background: rgba(255,149,0,.14);
-      border-color: rgba(255,149,0,.30);
-    }
-    .wmHeadline{
-      margin-top:12px;
-      font-size:22px;
-      font-weight:900;
-      letter-spacing:.3px;
-      line-height:1.2;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-    }
-    .dotSep{color:rgba(255,255,255,.55); font-weight:800}
-    .grad, .grad2, .grad3{
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      display:inline-block;
-    }
-    .grad{background-image: linear-gradient(90deg, rgba(10,132,255,1), rgba(120,195,255,1));}
-    .grad2{background-image: linear-gradient(90deg, rgba(50,215,75,1), rgba(180,255,210,1));}
-    .grad3{background-image: linear-gradient(90deg, rgba(255,214,10,1), rgba(255,240,180,1));}
-
-    .bigWelcome .wmTitle{
-      margin-top:8px;
-      font-size:17px;
-      font-weight:800;
-    }
-    .bigWelcome .wmDesc{
-      font-size:14px;
-      color:rgba(255,255,255,.74);
-    }
-
-    /* Confetti pieces */
-    .cf{
-      position:absolute;
-      width:10px;height:10px;
-      border-radius:3px;
-      opacity:.0;
-      transform: translateY(-12px) rotate(0deg);
-      animation:none;
-      box-shadow: 0 10px 20px rgba(0,0,0,.18);
-    }
-    .c1{left:12px; top:18px; background: rgba(255,214,10,.95); animation-delay:.1s}
-    .c2{left:36px; top:44px; background: rgba(10,132,255,.95); animation-delay:.45s}
-    .c3{left:64%; top:16px; background: rgba(50,215,75,.95); animation-delay:.75s}
-    .c4{right:18px; top:40px; background: rgba(255,69,58,.95); animation-delay:1.05s}
-    .c5{right:62px; top:16px; background: rgba(180,255,210,.95); animation-delay:1.35s}
-    .c6{left:18px; bottom:30px; background: rgba(120,195,255,.95); animation-delay:1.65s}
-    .c7{right:18px; bottom:26px; background: rgba(255,240,180,.95); animation-delay:1.95s}
-    .c8{left:54%; bottom:26px; background: rgba(255,214,10,.95); animation-delay:2.25s}
-
-    @keyframes confetti{
-      0%, 68%, 100%{ opacity:0; transform: translateY(-12px) rotate(0deg) }
-      72%{ opacity:.95; transform: translateY(0px) rotate(30deg) }
-      86%{ opacity:.75; transform: translateY(10px) rotate(120deg) }
-      94%{ opacity:0; transform: translateY(18px) rotate(180deg) }
-    }
-
-    /* Nice entrance animation */
-    .bigWelcome{ animation: popIn .55s ease both; }
-    @keyframes popIn{
-      from{ transform: translateY(10px) scale(.985); opacity:0; }
-      to{ transform: translateY(0) scale(1); opacity:1; }
-    }
-
-    @media (max-width:480px){
-      .wmHeadline{font-size:19px}
-      .bigWelcome{min-height:190px}
-    }
-
-
-    /* ===== Refined Spacing & Typography (Apple-like) ===== */
-    body{
-      font-size:15px;
-      line-height:1.6;
-    }
-
-    .wrap{
-      max-width:920px;
-      padding:22px 16px 90px;
-    }
-
-    .top{
-      padding:14px 8px 4px;
-    }
-
-    .logo{
-      width:42px;
-      height:42px;
-      border-radius:16px;
-    }
-
-    .title h1{
-      font-size:17px;
-      font-weight:700;
-      letter-spacing:.15px;
-    }
-    .title .sub{
-      font-size:12px;
-    }
-
-    .hero{
-      padding:22px 18px;
-    }
-    .hero h2{
-      font-size:20px;
-      font-weight:800;
-    }
-    .hero p{
-      font-size:14px;
-    }
-
-    .section{
-      padding:18px;
-    }
-
-    label{
-      font-size:12px;
-      margin-bottom:6px;
-    }
-
-    input, textarea{
-      font-size:15px;
-      padding:13px 14px;
-      border-radius:18px;
-    }
-
-    .btn{
-      font-size:15px;
-      padding:13px;
-      border-radius:18px;
-    }
-    .btn.primary{
-      font-weight:600;
-    }
-    .pillbtn{
-      font-size:13px;
-      padding:9px 13px;
-    }
-
-    .seg{
-      gap:6px;
-      padding:6px;
-    }
-    .seg button{
-      font-size:14px;
-      padding:11px;
-    }
-
-    .welcomeMotion{
-      padding:24px 20px;
-    }
-
-    .wmHeadline{
-      font-size:21px;
-    }
-    .wmTitle{
-      font-size:16px;
-    }
-    .wmDesc{
-      font-size:13.5px;
-    }
-
-    .warrantyBox{
-      padding:18px;
-    }
-    .wBig{
-      font-size:30px;
-    }
-    .wBig small{
-      font-size:13px;
-    }
-
-    .reportBtn{
-      font-size:15px;
-      padding:13px;
-    }
-
-    .result{
-      padding:14px;
-    }
-
-</style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="top">
-      <div class="brand">
-        <div class="logo"></div>
-        <div class="title">
-          <h1>شركة الضمان للأجهزة الكهربائية</h1>
-          <div class="sub">حفظ • بحث عن فترة الضمان</div>
-        </div>
-      </div>
-      <!-- زر رقم (6): زر الإعادة -->
-<button class="pillbtn" id="resetBtn" type="button">إعادة</button>
-    </div>
-
-    <div class="card hero">
-      <h2 id="pageTitle">بحث عن فترة الضمان</h2>
-      <p id="pageDesc">اكتب الاسم الثلاثي ورقم الهاتف لعرض تاريخ انتهاء الضمان مع الصورة.</p>
-
-      <!-- رسالة ترحيبية ثابتة -->
-      
-      
-      <div class="result" id="welcomeBanner">
-        <div class="welcomeMotion bigWelcome" role="status" aria-label="Welcome">
-          <div class="wmBg">
-            <span class="blob b1"></span>
-            <span class="blob b2"></span>
-            <span class="blob b3"></span>
-
-            <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span>
-
-            <!-- confetti -->
-            <span class="cf c1"></span><span class="cf c2"></span><span class="cf c3"></span><span class="cf c4"></span>
-            <span class="cf c5"></span><span class="cf c6"></span><span class="cf c7"></span><span class="cf c8"></span>
-          </div>
-
-          <div class="wmText">
-            <div class="wmBadge">🎉 مبروك</div>
-
-            <div class="wmHeadline">
-              <span class="grad">جهاز أصلي</span>
-              <span class="dotSep">•</span>
-              <span class="grad2">ضمان حقيقي</span>
-              <span class="dotSep">•</span>
-              <span class="grad3">سنة كاملة</span>
-            </div>
-
-            <div class="wmTitle">راقي… قوي… ومضمون ✅</div>
-
-            <div class="wmDesc">
-              شكراً لثقتك بـ <b>شركة الضمان للأجهزة الكهربائية</b> — خدمة راقية ومتابعة حقيقية.
-              <br/>📞 خدمة الضمان: <b dir="ltr">07722806645</b>
-            </div>
-          </div>
-        </div>
-      </div>
-<div class="wmText">
-            <div class="wmBadge">✨ تهانينا</div>
-            <div class="wmTitle">جهاز راقي • أداء قوي • ضمان حقيقي</div>
-            <div class="wmDesc">
-              مبروك! لقد قمت بشراء <b>جهاز أصلي</b> وبـ <b>ضمان حقيقي لمدة سنة كاملة</b> ✅
-              <br/>خدمة الضمان على الرقم: <b dir="ltr">07722806645</b>
-            </div>
-          </div>
-        </div>
-      </div>
-<div class="v" style="line-height:1.75;margin-top:6px">
-          مبروك! لقد قمت بشراء <b>جهاز أصلي</b> وبـ <b>ضمان حقيقي لمدة سنة كاملة</b> ✅
-          <br/>من <b>شركة الضمان للأجهزة الكهربائية</b> — مميزات حقيقية وخدمة متابعة.
-        </div>
-      </div>
-
-      <div class="seg" role="tablist">
-        <button id="goSearch" class="active" type="button">بحث</button>
-        <!-- زر رقم (1): زر التبويب -->
-<button id="goActivate" type="button">إعداد</button>
-      </div>
-
-      <div class="status">
-        <span class="dot" id="statusDot"></span>
-        <span id="cloudStatus" style="color:var(--muted)">... جاري الاتصال بقاعدة البيانات</span>
-      </div>
-
-      <div class="result" id="errBox" style="display:none;direction:ltr;text-align:left;white-space:pre-wrap"></div>
-    </div>
-
-    <!-- Search -->
-    <div class="card section" id="searchCard">
-      <div class="grid">
-        <div>
-          <label>الاسم الثلاثي</label>
-          <input id="searchName" placeholder="أدخل الاسم الثلاثي" />
-        </div>
-        <div>
-          <label>رقم الهاتف</label>
-          <input id="searchPhone" placeholder="أدخل رقم الهاتف" inputmode="tel" />
-        </div>
-      </div>
-
-      <div class="row">
-        <!-- زر رقم (3): زر البحث -->
-<button class="btn primary" id="searchBtn" type="button">بحث</button>
-        <!-- زر رقم (4): زر المسح -->
-<button class="btn" id="searchClearBtn" type="button">مسح</button>
-      </div>
-
-      <div class="result hidden" id="searchResult">
-        <div class="kv">
-          <div><div class="k">الاسم</div><div class="v" id="rName">-</div></div>
-          <div><div class="k">الهاتف</div><div class="v" id="rPhone">-</div></div>
-          <div style="grid-column:1/-1"><div class="k">انتهاء الضمان</div><div class="v" id="rEnd">-</div></div>
-        <div style="grid-column:1/-1">
-          <div class="warrantyBox" id="warrantyBox">
-            <div class="wTop">
-              <div class="wTitle">عداد الضمان</div>
-              <div class="wPill" id="wStatusPill">-</div>
-            </div>
-
-            <div class="wBig">
-              <span id="rDaysLeft">-</span>
-              <small>يوم</small>
-              <span style="font-size:16px;color:var(--muted);font-weight:700" id="rCountdown">-</span>
-            </div>
-
-            <div class="wSub" id="wSubText">-</div>
-
-            <div class="wBar" aria-label="warranty progress">
-              <div class="wFill" id="wFill"></div>
-            </div>
-
-            <div class="wMeta">
-              <div class="m">
-                <div class="k">بداية الضمان</div>
-                <div class="v" id="rStart">-</div>
-              </div>
-              <div class="m">
-                <div class="k">انتهاء الضمان</div>
-                <div class="v" id="rEnd2">-</div>
-              </div>
-            </div>
-
-            <button class="reportBtn" id="reportBtn" type="button">🧾 تقرير الزبون</button>
-          </div>
-        </div>
-    <div style="grid-column:1/-1"><div class="k">عدد مرات الشراء</div><div class="v" id="rCount">-</div></div>
-          <div style="grid-column:1/-1" id="rHistoryWrap" class="hidden">
-            <div class="k">الفواتير السابقة (الأحدث أولاً)</div>
-            <div class="v" id="rHistory" style="display:grid;gap:12px"></div>
-          </div>
-        </div>
-        <div class="badge">
-          <span class="dot" id="searchDot"></span>
-          <span id="searchStatusText">-</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Activate -->
-    <div class="card section hidden" id="activateCard">
-      <div class="switchRow">
-        <div class="txt">زبون سابق (إضافة مرة ثانية)</div>
-        <label class="switch">
-          <input id="isPrevCustomer" type="checkbox" />
-          <span class="slider"></span>
-        </label>
-      </div>
-      <div class="help">إذا كان الزبون مشتري سابقاً وتريد تضيفه مرة ثانية، فعّل هذا الخيار ثم اضغط تفعيل.</div>
-
-      <div class="grid" style="margin-top:12px">
-        <div>
-          <label>الاسم الثلاثي</label>
-          <input id="fullName" placeholder="مثال: كرار نبيل أكرم" />
-        </div>
-        <div>
-          <label>رقم الهاتف</label>
-          <input id="phone" placeholder="0772xxxxxxx أو 9647xxxxxxxxx" inputmode="tel" />
-        </div>
-
-        <div style="grid-column:1/-1">
-          <label>صورة الفاتورة (إلزامي)</label>
-          <input id="imgFromCamera" type="file" accept="image/*" capture="environment" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
-          <input id="imgFromGallery" type="file" accept="image/*" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
-          <div class="row" style="margin-top:0">
-            <button class="btn primary" id="btnCamera" type="button">📷 الكاميرا</button>
-            <button class="btn ghost" id="btnGallery" type="button">🖼️ الاستوديو</button>
-          </div>
-          <div class="help">اختيار صورة من الكاميرا أو الاستوديو — تنحفظ وتظهر بالبحث.</div>
-          <div class="result hidden" id="imgPreviewBox" style="margin-top:10px">
-            <div class="k">معاينة</div>
-            <div class="v"><img loading="lazy" id="imgPreview" class="preview" /></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <!-- زر رقم (2): زر الحفظ الحقيقي -->
-<button class="btn primary" id="activateBtn" type="button">حفظ 1</button>
-        <!-- زر رقم (5): زر النسخ -->
-<button class="btn" id="copyBtn" type="button">نسخ</button>
-      </div>
-
-      <div class="result hidden" id="resultBox">
-        <div class="kv">
-          <div><div class="k">بداية الضمان</div><div class="v" id="startDate">-</div></div>
-          <div><div class="k">انتهاء الضمان</div><div class="v" id="endDate">-</div></div>
-        </div>
-      </div>
-
-      <div class="help" style="margin-top:12px">هاتف المساعدة: <b>07722806645</b></div>
-    </div>
-  </div>
-
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  <script>
-    const firebaseConfig = {"apiKey": "AIzaSyBMZbRFRU5-GyAmEwLHDspnY6PkEcaz6Ak", "authDomain": "albaman-f8a20.firebaseapp.com", "projectId": "albaman-f8a20", "storageBucket": "albaman-f8a20.firebasestorage.app", "messagingSenderId": "770267943286", "appId": "1:770267943286:web:e3da1c43d65740d7b52a57", "measurementId": "G-CB2PYMZSZT"};
-    const HELP_PHONE = "07722806645";
-    const WARRANTY_DAYS = 365;
-
-    const $ = (id)=>document.getElementById(id);
-
-    function setConn(state, msg){
-      const dot = $("statusDot");
-      dot.className = "dot" + (state==="ok" ? " ok" : state==="bad" ? " bad" : "");
-      $("cloudStatus").textContent = msg;
-    }
-    function showErr(msg){
-      const el = $("errBox");
-      if(!msg){ el.style.display="none"; el.textContent=""; return; }
-      el.style.display="block"; el.textContent = String(msg);
-    }
-    function normalizeDigits(str){
-      return (str||"")
-        .replace(/[٠-٩]/g, d => String("٠١٢٣٤٥٦٧٨٩".indexOf(d)))
-        .replace(/[۰-۹]/g, d => String("۰۱۲۳۴۵۶۷۸۹".indexOf(d)));
-    }
-    function sanitizePhone(p){ return normalizeDigits((p||"").trim().replace(/\s+/g,"")); }
-    function normalizeName(n){ return (n||"").trim().replace(/\s+/g," "); }
-
-    function fmt(d){
-      const y=d.getFullYear();
-      const m=String(d.getMonth()+1).padStart(2,"0");
-      const da=String(d.getDate()).padStart(2,"0");
-      const hh=String(d.getHours()).padStart(2,"0");
-      const mm=String(d.getMinutes()).padStart(2,"0");
-      return `${y}-${m}-${da} ${hh}:${mm}`;
-    }
-
-    function showSearch(){
-      $("searchCard").classList.remove("hidden");
-      $("activateCard").classList.add("hidden");
-      $("goSearch").classList.add("active");
-      $("goActivate").classList.remove("active");
-      $("pageTitle").textContent="بحث عن فترة الضمان";
-      $("pageDesc").textContent="اكتب الاسم الثلاثي ورقم الهاتف لعرض تاريخ انتهاء الضمان مع الصورة.";
-      window.scrollTo({top:0, behavior:"smooth"});
-    }
-    function showActivate(){
-      const pass = prompt("أدخل رمز فتح صفحة حفظ:");
-      if(pass !== "878705"){
-        alert("رمز غير صحيح");
-        showSearch();
-        return;
-      }
-      $("activateCard").classList.remove("hidden");
-      $("searchCard").classList.add("hidden");
-      $("goActivate").classList.add("active");
-      $("goSearch").classList.remove("active");
-      $("pageTitle").textContent="حفظ";
-      $("pageDesc").textContent="المطلوب: الاسم الثلاثي + رقم الهاتف + صورة الفاتورة.";
-      window.scrollTo({top:0, behavior:"smooth"});
-    }
-
-    $("goSearch").addEventListener("click", showSearch);
-    $("goActivate").addEventListener("click", showActivate);
-
-    $("resetBtn").addEventListener("click", ()=>{
-      ["fullName","phone","searchName","searchPhone"].forEach(id=>{ const el=$(id); if(el) el.value=""; });
-      $("searchResult").classList.add("hidden");
-      $("resultBox").classList.add("hidden");
-      if(window.__countdownTimer) { try{ clearInterval(window.__countdownTimer);}catch(_){ } }
-      $("imgPreviewBox").classList.add("hidden");
-      window.__invoiceImageData = null;
-    window.__lastCustomer = null;
-      $("isPrevCustomer").checked = false;
-      showSearch();
-    });
-
-    $("searchClearBtn").addEventListener("click", ()=>{
-      $("searchName").value=""; $("searchPhone").value="";
-      $("searchResult").classList.add("hidden");
-    });
-
-    // ---- Image (camera or gallery) -> Base64 + preview ----
-    window.__invoiceImageData = null;
-    window.__lastCustomer = null;
-
-    async function fileToCompressedDataURL(file, maxSide=1600, quality=0.78){
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      await new Promise((res, rej)=>{ img.onload=res; img.onerror=rej; img.src=url; });
-      const w = img.naturalWidth, h = img.naturalHeight;
-      const scale = Math.min(1, maxSide / Math.max(w,h));
-      const nw = Math.round(w*scale), nh = Math.round(h*scale);
-      const canvas = document.createElement("canvas");
-      canvas.width=nw; canvas.height=nh;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img,0,0,nw,nh);
-      URL.revokeObjectURL(url);
-      return canvas.toDataURL("image/jpeg", quality);
-    }
-
-    async function handlePickedFile(file){
-      if(!file) return;
-      try{
-        const dataUrl = await fileToCompressedDataURL(file);
-        window.__invoiceImageData = dataUrl;
-        $("imgPreview").src = dataUrl;
-        $("imgPreviewBox").classList.remove("hidden");
-      }catch(err){
-        alert("تعذر قراءة الصورة");
-        console.log(err);
-      }
-    }
-
-    $("btnCamera").addEventListener("click", ()=> $("imgFromCamera").click());
-    $("btnGallery").addEventListener("click", ()=> $("imgFromGallery").click());
-    $("imgFromCamera").addEventListener("change", (e)=> handlePickedFile(e.target.files && e.target.files[0]));
-    $("imgFromGallery").addEventListener("change", (e)=> handlePickedFile(e.target.files && e.target.files[0]));
-
-    // ---- Firestore ----
-    let db = null;
-    try{
-      firebase.initializeApp(firebaseConfig);
-      db = firebase.firestore();
-    }catch(e){
-      setConn("bad","❌ خطأ بتهيئة Firebase");
-      showErr(e?.message || e);
-    }
-
-    async function ping(){
-      if(!db) return;
-      try{
-        await db.collection("_health").doc("ping").get();
-        setConn("ok","✅ متصل بقاعدة البيانات (Firestore)");
-        showErr("");
-      }catch(e){
-        setConn("bad","❌ فشل الاتصال بقاعدة البيانات");
-        showErr((e?.code?e.code:"error")+": "+(e?.message||e));
-      }
-    }
-    setConn("warn","... جاري الاتصال بقاعدة البيانات");
-    ping();
-
-    async function sha256hex(s){
-      const enc = new TextEncoder().encode(s);
-      const hash = await crypto.subtle.digest("SHA-256", enc);
-      return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,"0")).join("");
-    }
-
-    async function customerId(name, phone){
-      return sha256hex(normalizeName(name).toLowerCase() + "|" + sanitizePhone(phone));
-    }
-
-    function formatEnd(endISO){
-      const end = new Date(endISO);
-      return fmt(end);
-    }
-
-    // ---- Countdown for search result ----
-    let __countdownTimer = null;
-    function pad2(n){ return String(n).padStart(2,"0"); }
-    function startWarrantyCountdown(startDate, endDate){
-      if(__countdownTimer) clearInterval(__countdownTimer);
-      const daysEl = $("rDaysLeft");
-      const cdEl = $("rCountdown");
-      const fillEl = $("wFill");
-      const pill = $("wStatusPill");
-      const sub = $("wSubText");
-
-      // set static dates in UI
-      if($("rStart")) $("rStart").textContent = startDate ? fmt(startDate) : "-";
-      if($("rEnd2")) $("rEnd2").textContent = endDate ? fmt(endDate) : "-";
-
-      const totalMs = (startDate && endDate) ? (endDate - startDate) : (365*24*3600*1000);
-
-      function tick(){
-        const now = new Date();
-        const diff = endDate - now;
-
-        // progress
-        if(startDate && endDate && fillEl){
-          const elapsed = Math.max(0, Math.min(totalMs, now - startDate));
-          const pct = totalMs > 0 ? Math.round((elapsed/totalMs)*100) : 0;
-          fillEl.style.width = `${Math.max(0, Math.min(100, pct))}%`;
-          sub.textContent = `تم استخدام ${pct}% من مدة الضمان`;
-        } else if(sub){
-          sub.textContent = "";
-        }
-
-        if(diff <= 0){
-          daysEl.textContent = "0";
-          cdEl.textContent = "انتهى";
-          pill.textContent = "خارج الضمان";
-          $("searchDot").className = "dot bad";
-          $("searchStatusText").textContent = "🔴 خارج الضمان";
-          if(__countdownTimer){ clearInterval(__countdownTimer); __countdownTimer = null; }
-          return;
-        }
-        const totalSec = Math.floor(diff/1000);
-        const days = Math.floor(totalSec/86400);
-        const hrs = Math.floor((totalSec%86400)/3600);
-        const mins = Math.floor((totalSec%3600)/60);
-        const secs = totalSec%60;
-
-        daysEl.textContent = String(days);
-        cdEl.textContent = `${pad2(hrs)}:${pad2(mins)}:${pad2(secs)}`;
-        pill.textContent = "داخل الضمان";
-      }
-      tick();
-      __countdownTimer = setInterval(tick, 1000); // single timer
-    }
-
-    function renderHistory(purchases){
-      const wrap = $("rHistoryWrap");
-      const box = $("rHistory");
-      if(!purchases || !Array.isArray(purchases) || purchases.length === 0){
-        wrap.classList.add("hidden");
-        box.innerHTML = "";
-        return;
-      }
-      // sort newest first by startISO
-      const list = purchases
-        .filter(p=>p && p.startISO && p.endISO)
-        .slice()
-        .sort((a,b)=> (new Date(b.startISO)) - (new Date(a.startISO)));
-
-      wrap.classList.remove("hidden");
-      box.innerHTML = list.map((p, i)=>{
-        const s = p.startISO ? fmt(new Date(p.startISO)) : "-";
-        const e = p.endISO ? fmt(new Date(p.endISO)) : "-";
-        const img = p.invoiceImage ? `<img loading="lazy" class="preview" alt="invoice ${i+1}" src="${p.invoiceImage}"/>` : "";
-        return `
-          <div class="result" style="margin-top:0">
-            <div class="k">فاتورة #${i+1}</div>
-            <div class="v" style="margin-top:8px">
-              <div style="display:grid;gap:6px">
-                <div><span style="color:var(--muted2);font-size:12px">بداية الضمان:</span> ${s}</div>
-                <div><span style="color:var(--muted2);font-size:12px">انتهاء الضمان:</span> ${e}</div>
-              </div>
-              ${img ? `<div style="margin-top:10px">${img}</div>` : ``}
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-
-    $("activateBtn").addEventListener("click", async ()=>{
-const fullName = normalizeName($("fullName").value);
-      const phone = sanitizePhone($("phone").value);
-      const img = window.__invoiceImageData;
-      const isPrev = $("isPrevCustomer").checked;
-
-      if(fullName.split(" ").length < 3) return alert("رجاءً اكتب الاسم الثلاثي (3 كلمات على الأقل).");
-      if(phone.length < 8) return alert("رجاءً اكتب رقم هاتف صحيح.");
-      if(!img) return alert("صورة الفاتورة إلزامية (من الكاميرا أو الاستوديو).");
-      if(!db) return alert("قاعدة البيانات غير جاهزة.");
-
-      try{
-        const id = await customerId(fullName, phone);
-        const ref = db.collection("customers").doc(id);
-        const snap = await ref.get();
-
-        if(snap.exists && !isPrev){
-          alert("هذا الزبون مشتري سابقاً ✅\nفعّل زر (زبون سابق) حتى تگدر تضيفه مرة ثانية.");
-          return;
-        }
-
-        const now = new Date();
-        const end = new Date(now);
-        end.setDate(end.getDate() + WARRANTY_DAYS);
-
-        const prevCount = snap.exists ? (snap.data().purchaseCount || 1) : 0;
-        const newCount = snap.exists ? (prevCount + 1) : 1;
-
-        
-        const purchaseObj = {
-          startISO: now.toISOString(),
-          endISO: end.toISOString(),
-          invoiceImage: img,
-          createdAtISO: now.toISOString()
-        };
-
-        await ref.set({
-          fullName,
-          phone,
-          // آخر شراء (للإظهار السريع)
-          startISO: purchaseObj.startISO,
-          endISO: purchaseObj.endISO,
-          invoiceImage: purchaseObj.invoiceImage,
-          // سجل كل المشتريات/الفواتير
-          purchases: snap.exists
-            ? firebase.firestore.FieldValue.arrayUnion(purchaseObj)
-            : [purchaseObj],
-          purchaseCount: newCount,
-          lastPurchaseAt: firebase.firestore.FieldValue.serverTimestamp(),
-          isPrevCustomer: !!snap.exists,
-        }, { merge:true });
-$("resultBox").classList.remove("hidden");
-        $("startDate").textContent = fmt(now);
-        $("endDate").textContent = fmt(end);
-
-        alert("تم حفظ ✅");
-      }catch(e){
-        alert("خطأ: " + (e?.message || e));
-        console.log(e);
-      }
-    });
-
-    $("searchBtn").addEventListener("click", async ()=>{
-      const name = normalizeName($("searchName").value);
-      const phone = sanitizePhone($("searchPhone").value);
-
-      if(name.split(" ").length < 3) return alert("رجاءً اكتب الاسم الثلاثي.");
-      if(phone.length < 8) return alert("رجاءً اكتب رقم الهاتف.");
-      if(!db) return alert("قاعدة البيانات غير جاهزة.");
-
-      try{
-        const id = await customerId(name, phone);
-        const snap = await db.collection("customers").doc(id).get();
-        if(!snap.exists){
-          $("searchResult").classList.add("hidden");
-          alert("لم يتم العثور على بيانات لهذا الاسم والرقم.");
-          return;
-        }
-        const d = snap.data() || {};
-
-        $("rName").textContent = d.fullName || "-";
-        $("rPhone").textContent = d.phone || "-";
-        
-        // اعرض آخر فترة ضمان بناءً على آخر عملية شراء (إن وجدت)
-        const purchases = Array.isArray(d.purchases) ? d.purchases : [];
-        // توافق مع البيانات القديمة (قبل إضافة سجل الفواتير)
-        if(purchases.length === 0 && (d.invoiceImage || d.startISO || d.endISO)){
-          purchases.push({
-            startISO: d.startISO || null,
-            endISO: d.endISO || null,
-            invoiceImage: d.invoiceImage || null,
-            createdAtISO: null
-          });
-        }
-        const latest = purchases.length
-          ? purchases
-              .filter(p=>p && p.endISO)
-              .slice()
-              .sort((a,b)=> (new Date(b.startISO||0)) - (new Date(a.startISO||0)))[0]
-          : null;
-
-        const endISO = (latest && latest.endISO) ? latest.endISO : d.endISO;
-        $("rEnd").textContent = endISO ? formatEnd(endISO) : "-";
-        if($("rEnd2")) $("rEnd2").textContent = endISO ? formatEnd(endISO) : "-";
-
-        const count = purchases.length ? purchases.length : (d.purchaseCount || 1);
-        $("rCount").textContent = count + " مرة";
-
-        // الفواتير السابقة + الصور
-        renderHistory(purchases);
-
-        window.__lastCustomer = d;
-        const rb = $("reportBtn");
-        if(rb){ rb.onclick = ()=> openCustomerReport(window.__lastCustomer || d); }
-
-        // حالة الضمان + العدّ التنازلي
-        const end = endISO ? new Date(endISO) : null;
-        const active = end ? (new Date() <= end) : false;
-        $("searchDot").className = active ? "dot ok" : "dot bad";
-        $("searchStatusText").textContent = active ? "🟢 داخل الضمان" : "🔴 خارج الضمان";
-
-        if(end) startWarrantyCountdown(latest && latest.startISO ? new Date(latest.startISO) : (d.startISO ? new Date(d.startISO) : null), end);
-        if($("rEnd2")) $("rEnd2").textContent = end ? fmt(end) : "-";
-
-
-        $("searchResult").classList.remove("hidden");
-        $("searchResult").scrollIntoView({behavior:"smooth", block:"start"});
-      }catch(e){
-        alert("خطأ: " + (e?.message || e));
-        console.log(e);
-      }
-    });
-
-    $("copyBtn").addEventListener("click", async ()=>{
-      const t =
-        "شركة الضمان للأجهزة الكهربائية\n" +
-        "الاسم: " + ($("fullName").value||"") + "\n" +
-        "الهاتف: " + ($("phone").value||"") + "\n" +
-        "انتهاء الضمان: " + ($("endDate").textContent||"");
-      try{ await navigator.clipboard.writeText(t); alert("تم النسخ ✓"); }
-      catch(_ ){ alert(t); }
-    });
-
-
-    // ---- Customer Report (Print) ----
-    function openCustomerReport(data){
-      const name = data.fullName || "-";
-      const phone = data.phone || "-";
-      const purchases = Array.isArray(data.purchases) ? data.purchases : [];
-      const list = purchases.slice().sort((a,b)=> (new Date(b.startISO||0)) - (new Date(a.startISO||0)));
-      const latest = list[0] || null;
-      const startISO = latest?.startISO || data.startISO || null;
-      const endISO = latest?.endISO || data.endISO || null;
-
-      const end = endISO ? new Date(endISO) : null;
-      const now = new Date();
-      const active = end ? (now <= end) : false;
-
-      const diff = end ? (end - now) : 0;
-      const totalSec = diff > 0 ? Math.floor(diff/1000) : 0;
-      const days = diff > 0 ? Math.floor(totalSec/86400) : 0;
-
-      const htmlDoc = `
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>تقرير الزبون</title>
 <style>
-  body{font-family: system-ui,-apple-system,"SF Pro Text","SF Pro Display",Arial; margin:18px; color:#111}
-  .card{border:1px solid #ddd;border-radius:16px;padding:14px;margin:12px 0}
-  h1{margin:0 0 8px;font-size:18px}
-  .muted{color:#555;font-size:13px}
-  .row{display:flex;gap:12px;flex-wrap:wrap}
-  .cell{flex:1;min-width:220px}
-  img{max-width:100%;border-radius:14px;border:1px solid #e6e6e6}
-  table{width:100%;border-collapse:collapse;margin-top:10px}
-  th,td{border:1px solid #e6e6e6;padding:10px;text-align:right;font-size:13px;vertical-align:top}
-  th{background:#f6f6f6}
-  .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid #ddd;font-size:13px}
-  .ok{background:#eaffea;border-color:#bfe9c3}
-  .bad{background:#ffecec;border-color:#f1b7b7}
-  @media print{ button{display:none} body{margin:0} }
+body{
+  margin:0;
+  font-family:Tahoma, Arial, sans-serif;
+  background:#f2f4f6;
+  text-align:center;
+}
+
+.header{
+  background:#ffffff;
+  padding:15px;
+  font-size:20px;
+  font-weight:bold;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+
+.title{
+  margin-top:40px;
+  font-size:24px;
+  font-weight:bold;
+  color:#5f9fb2;
+  line-height:1.6;
+}
+
+.card{
+  background:#ffffff;
+  width:92%;
+  max-width:480px;
+  margin:30px auto;
+  padding:25px 15px;
+  border-radius:18px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr .7fr 1fr;
+  gap:10px;
+  align-items:end;
+}
+
+label{
+  display:block;
+  margin:8px 0 5px;
+  font-weight:bold;
+}
+
+input,select{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:16px;
+  text-align:center;
+}
+
+button{
+  margin-top:20px;
+  background:#4f8ea1;
+  color:#ffffff;
+  border:none;
+  padding:12px 40px;
+  border-radius:16px;
+  font-size:17px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#417f90;
+}
+
+.result{
+  margin-top:20px;
+  font-size:22px;
+  font-weight:bold;
+  background:#a8d6e6;
+  color:#ffffff;
+  padding:15px;
+  border-radius:16px;
+}
 </style>
+
 </head>
 <body>
-  <div class="card">
-    <div class="row" style="align-items:center;justify-content:space-between">
-      <div>
-        <h1>تقرير الزبون</h1>
-        <div class="muted">شركة الضمان للأجهزة الكهربائية</div>
-      </div>
-      <div class="badge ${active?'ok':'bad'}">${active?'داخل الضمان':'خارج الضمان'}</div>
-    </div>
 
-    <div class="row" style="margin-top:10px">
-      <div class="cell"><div class="muted">الاسم</div><div style="font-size:16px;font-weight:700">${name}</div></div>
-      <div class="cell"><div class="muted">الهاتف</div><div style="font-size:16px;font-weight:700">${phone}</div></div>
-      <div class="cell"><div class="muted">المتبقي</div><div style="font-size:16px;font-weight:700">${days} يوم</div></div>
-    </div>
+<div class="header">تسعيرة دروب فندي</div>
 
-    <div class="row" style="margin-top:10px">
-      <div class="cell"><div class="muted">بداية الضمان</div><div>${startISO ? new Date(startISO).toLocaleString() : '-'}</div></div>
-      <div class="cell"><div class="muted">انتهاء الضمان</div><div>${endISO ? new Date(endISO).toLocaleString() : '-'}</div></div>
-      <div class="cell"><div class="muted">عدد مرات الشراء</div><div>${list.length || (data.purchaseCount||1)}</div></div>
-    </div>
+<div class="title">
+تسعيرة دروب فندي<br>
+للتجارة الإلكترونية
+</div>
 
-    <button onclick="window.print()" style="margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid #ddd;background:#fff;cursor:pointer">🖨️ طباعة / حفظ PDF</button>
-  </div>
+<div class="card">
 
-  <div class="card">
-    <h1 style="font-size:16px">سجل الفواتير</h1>
-    <div class="muted">الأحدث أولاً</div>
-    <table>
-      <thead>
-        <tr>
-          <th style="width:60px">#</th>
-          <th>بداية الضمان</th>
-          <th>انتهاء الضمان</th>
-          <th>صورة الفاتورة</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${list.map((p,i)=>`
-          <tr>
-            <td>${i+1}</td>
-            <td>${p.startISO ? new Date(p.startISO).toLocaleString() : '-'}</td>
-            <td>${p.endISO ? new Date(p.endISO).toLocaleString() : '-'}</td>
-            <td>${p.invoiceImage ? `<img loading="lazy" src="${p.invoiceImage}" alt="invoice ${i+1}"/>` : '-'}</td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-  </div>
-</body>
-</html>`;
+<div class="grid">
 
-      const w = window.open("", "_blank");
-      if(!w){ alert("تعذر فتح التقرير (قد يكون حظر النوافذ)."); return; }
-      w.document.open();
-      w.document.write(htmlDoc);
-      w.document.close();
-    }
-    showSearch();
-  </script>
+<div>
+<label>سعر المنتج</label>
+<input type="number" id="price" value="25000">
+</div>
+
+<div>
+<label>العملية</label>
+<select id="operation">
+<option value="+">+</option>
+<option value="-">-</option>
+<option value="x">×</option>
+<option value="/">÷</option>
+</select>
+</div>
+
+<div>
+<label>النسبة %</label>
+<input type="number" id="percent" value="15">
+</div>
+
+</div>
+
+<button onclick="calculate()">احسب</button>
+
+<div class="result" id="result">—</div>
+
+</div>
+
+<script>
+function calculate(){
+
+var price = parseFloat(document.getElementById("price").value);
+var percent = parseFloat(document.getElementById("percent").value);
+var op = document.getElementById("operation").value;
+var resultBox = document.getElementById("result");
+
+if(isNaN(price) || isNaN(percent)){
+  resultBox.innerHTML = "ادخل القيم";
+  return;
+}
+
+var percentValue = price * (percent / 100);
+var result = 0;
+
+if(op === "+"){
+  result = price + percentValue;
+}
+else if(op === "-"){
+  result = price - percentValue;
+}
+else if(op === "x"){
+  result = percentValue;
+}
+else if(op === "/"){
+  if(percentValue === 0){
+    resultBox.innerHTML = "لا يمكن القسمة على صفر";
+    return;
+  }
+  result = price / percentValue;
+}
+
+resultBox.innerHTML = Math.round(result).toLocaleString() + " د.ع";
+}
+</script>
+
 </body>
 </html>
